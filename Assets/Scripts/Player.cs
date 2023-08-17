@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
   private float _canFire = -1f;
   [SerializeField]
   private GameObject _laserPrefab;
+  private int _lives = 3;
 
   void Start()
   {
@@ -50,5 +51,13 @@ public class Player : MonoBehaviour
       Instantiate(_laserPrefab,
                   transform.position + new Vector3(0, 0.8f, 0),
                   transform.rotation);
+  }
+  public void Damage()
+  {
+    _lives--;
+    if (_lives < 1)
+    {
+      Destroy(gameObject);
+    }
   }
 }
