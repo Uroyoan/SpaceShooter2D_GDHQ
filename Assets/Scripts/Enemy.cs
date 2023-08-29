@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
   void Start()
   {
-    transform.position = new Vector3(0, 10, 0);
+
   }
   void Update()
   {
@@ -28,10 +28,12 @@ public class Enemy : MonoBehaviour
         }
         Destroy(gameObject);
         break;
+
       case "Laser":
         Destroy(other.gameObject);
         Destroy(gameObject);
         break;
+
       default:
         Debug.Log("Hit by: " + other.tag);
         break;
@@ -45,7 +47,7 @@ public class Enemy : MonoBehaviour
     transform.Translate(_enemySpeed * Time.deltaTime * direction);
 
     //Boundries
-    float newPosition = Random.Range(-12,12);
+    float newPosition = Random.Range(-11,11);
     if (transform.position.y > 13.6f)
     {
       transform.position = new Vector3(newPosition, -1.5f, 0);

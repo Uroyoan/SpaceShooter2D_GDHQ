@@ -12,10 +12,15 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _laserPrefab;
   private int _lives = 3;
-
+  private SpawnManager _spawnManager;
   void Start()
   {
     transform.position = new Vector3(0, 1, 0);
+    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+    if (_spawnManager == null)
+    {
+      Debug.LogError("Spawn Manager is NULL");
+    }
   }
   void Update()
   {
@@ -57,7 +62,9 @@ public class Player : MonoBehaviour
     _lives--;
     if (_lives < 1)
     {
+      _spawnManager.OnPlayerDeath();
       Destroy(gameObject);
     }
   }
+
 }
