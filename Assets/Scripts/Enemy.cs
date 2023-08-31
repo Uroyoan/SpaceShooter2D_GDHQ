@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     EnemyMovement();
   }
 
-  private void OnTriggerEnter(Collider other)
+  private void OnTriggerEnter2D(Collider2D other)
   { //check collided objects tag
     switch (other.tag)
     {

@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
   {
       _canFire = Time.time + _fireRate;
       Instantiate(_laserPrefab,
-                  transform.position + new Vector3(0, 0.8f, 0),
+                  transform.position + new Vector3(0, 1.4f, 0),
                   transform.rotation);
   }
   public void Damage()
