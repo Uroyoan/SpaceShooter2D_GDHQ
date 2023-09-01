@@ -22,18 +22,20 @@ public class SpawnManager : MonoBehaviour
 		{
 				
 		}
+
 	IEnumerator SpawnRoutine()
 	{
 		while (_stopSpawning == false)
 		{
 
-			Vector3 posToSpawn = new Vector3(Random.Range(-11f, 11f), 13.5f, 0f);
+			Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 8f, 0f);
 			GameObject newEnemy = Instantiate(_enemyPrefab,posToSpawn,Quaternion.identity);
 			newEnemy.transform.parent = _enemyContainer.transform;
 
       yield return new WaitForSeconds(_spawnTime);
     }
 	}
+
 	public void OnPlayerDeath()
 	{
 		_stopSpawning = true;

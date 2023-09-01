@@ -11,7 +11,7 @@ public class Laser : MonoBehaviour
   {
     LaserMovement();
   }
-  //                                                                         |
+
   void LaserMovement()
   {
     //Movement
@@ -22,28 +22,11 @@ public class Laser : MonoBehaviour
       Debug.Log("destroyed X");
       Destroy(this.gameObject);
     }
-    else if (transform.position.y > 13.3f || transform.position.y < -13.3f)
+    else if (transform.position.y > 10f || transform.position.y < -10f)
     {
       Debug.Log("destroyed Y");
       Destroy(this.gameObject);
     }
   }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
