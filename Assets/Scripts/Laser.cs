@@ -16,16 +16,17 @@ public class Laser : MonoBehaviour
   {
     //Movement
     transform.Translate(_laserSpeed * Time.deltaTime * Vector3.up);
+
     //Boundries
     if (transform.position.x > 13.3f || transform.position.x < -13.3f)
     {
       Debug.Log("destroyed X");
-      Destroy(this.gameObject);
+      Destroy(transform.parent.gameObject);
     }
     else if (transform.position.y > 10f || transform.position.y < -10f)
-    {
+    { 
       Debug.Log("destroyed Y");
-      Destroy(this.gameObject);
+      Destroy(transform.parent.gameObject);
     }
   }
 
