@@ -7,6 +7,8 @@ public class Powerup : MonoBehaviour
 {
 
   private float _powerupSpeed = 3f;
+  [SerializeField]
+  private int _powerupID; // 0 = TripleShot, 1 = Speedup, 2 = Shields
 
   void Update()
   {
@@ -37,8 +39,25 @@ public class Powerup : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player != null)
         {
-          player.TripleShotActive();
-        }
+          switch (_powerupID)
+          {
+            case 0: // Triple Shot
+              player.TripleShotActive();
+              break;
+
+            case 1: // Speed Boost
+              player.SpeedBoostActive();
+              break;
+
+            case 2: // Shields
+              Debug.Log("Powerup shield");
+              break;
+
+            default:
+              Debug.Log("powerupID ERROR?");
+              break;
+          }
+  }
         Destroy(this.gameObject);
         break;
 

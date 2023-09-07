@@ -7,10 +7,6 @@ public class Enemy : MonoBehaviour
 {
   private float _enemySpeed = 7f;
 
-  void Start()
-  {
-
-  }
   void Update()
   {
     EnemyMovement();

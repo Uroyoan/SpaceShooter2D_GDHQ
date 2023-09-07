@@ -20,13 +20,19 @@ public class Laser : MonoBehaviour
     //Boundries
     if (transform.position.x > 13.3f || transform.position.x < -13.3f)
     {
-      Debug.Log("destroyed X");
-      Destroy(transform.parent.gameObject);
+      if (transform.parent != null)
+      {
+        Destroy(transform.parent.gameObject);
+      }
+      Destroy(this.gameObject);
     }
     else if (transform.position.y > 10f || transform.position.y < -10f)
-    { 
-      Debug.Log("destroyed Y");
-      Destroy(transform.parent.gameObject);
+    {
+      if (transform.parent != null)
+      {
+        Destroy(transform.parent.gameObject);
+      }
+      Destroy(this.gameObject);
     }
   }
 
