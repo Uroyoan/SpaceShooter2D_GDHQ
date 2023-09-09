@@ -50,15 +50,15 @@ public class Powerup : MonoBehaviour
               break;
 
             case 2: // Shields
-              Debug.Log("Powerup shield");
+              player.ShieldActive();
               break;
 
             default:
               Debug.Log("powerupID ERROR?");
               break;
           }
-  }
-        Destroy(this.gameObject);
+        }
+      Destroy(this.gameObject);
         break;
 
       default:

@@ -7,26 +7,32 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-  private float _playerSpeed = 10f;
-  private float _speedBoostMultiplier = 1.5f;
- 
-  private float _fireRate = 0.2f;
-  private float _canFire = -1f;
-  [SerializeField]
-  private GameObject _laserPrefab;
-
   private int _lives = 3;
   private SpawnManager _spawnManager;
+
+  [SerializeField]
+  private GameObject _laserPrefab;
+  private float _fireRate = 0.2f;
+  private float _canFire = -1f;
 
   [SerializeField]
   private GameObject _TripleShotPrefab;
   private bool _tripleShotActive = false;
   private float _tripleShotCooldown = 5f;
 
+  private float _playerSpeed = 10f;
+
   [SerializeField]
   private GameObject _speedBoostPrefab;
   private bool _speedBoostActive = false;
   private float _speedBoostCooldown = 5f;
+  private float _speedBoostMultiplier = 1.5f;
+
+  [SerializeField]
+  private GameObject _shieldVisualPrefab;
+  private bool _shieldActive = false;
+
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -87,7 +93,18 @@ public class Player : MonoBehaviour
 
   public void Damage()
   {
-    _lives--;
+
+    if (_shieldActive == true)
+    {
+      _shieldActive = false;
+      _shieldVisualPrefab.SetActive(false);
+      return;
+    }
+    else
+    {
+      _lives--;
+    }
+
     if (_lives < 1)
     {
       _spawnManager.OnPlayerDeath();
@@ -120,4 +137,11 @@ public class Player : MonoBehaviour
     _speedBoostActive = false;
     _playerSpeed /= _speedBoostMultiplier;
   }
+
+  public void ShieldActive()
+  {
+    _shieldActive = true;
+    _shieldVisualPrefab.SetActive(true);
+  }
+
 }
