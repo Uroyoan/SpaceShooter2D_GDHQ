@@ -32,14 +32,22 @@ public class Player : MonoBehaviour
   private GameObject _shieldVisualPrefab;
   private bool _shieldActive = false;
 
-
+  private int _score;
+  private UiManager _uiManager;
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
+
     _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
     if (_spawnManager == null)
     {
       Debug.LogError("Spawn Manager is NULL");
+    }
+
+    _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
+    if (_uiManager == null)
+    {
+      Debug.LogError("UI Manager is NULL");
     }
   }
 
@@ -103,6 +111,7 @@ public class Player : MonoBehaviour
     else
     {
       _lives--;
+      _uiManager.UpdateLives(_lives);
     }
 
     if (_lives < 1)
@@ -144,4 +153,9 @@ public class Player : MonoBehaviour
     _shieldVisualPrefab.SetActive(true);
   }
 
+  public void AddScore(int points)
+  {
+    _score += points;
+    _uiManager.UpdateScore(_score);
+  }
 }

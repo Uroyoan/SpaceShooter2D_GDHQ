@@ -7,6 +7,12 @@ public class Enemy : MonoBehaviour
 {
   private float _enemySpeed = 7f;
 
+  private Player _player;
+
+  void Start()
+  {
+    _player = GameObject.Find("Player").GetComponent<Player>();
+  }
   void Update()
   {
     EnemyMovement();
@@ -34,16 +40,19 @@ public class Enemy : MonoBehaviour
     switch (other.tag)
     {
       case "Player":
-        Player player = other.GetComponent<Player>();
-        if (player != null)
+        if (_player != null)
         {
-          player.Damage();
+          _player.Damage();
         }
         Destroy(gameObject);
         break;
 
       case "Laser":
         Destroy(other.gameObject);
+        if (_player != null)
+        {
+          _player.AddScore(Random.Range(1,11));
+        }
         Destroy(gameObject);
         break;
 
