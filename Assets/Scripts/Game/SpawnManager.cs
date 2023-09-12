@@ -15,16 +15,10 @@ public class SpawnManager : MonoBehaviour
   [SerializeField]
   private GameObject[] _powerups;
 
-
-  void Start()
-		{
-			StartCoroutine(SpawnEnemyRoutine());
-			StartCoroutine(SpawnPowerupRoutine());
-  }
-
 	IEnumerator SpawnEnemyRoutine()
 	{
-		while (_stopSpawning == false)
+    yield return new WaitForSeconds(3f);
+    while (_stopSpawning == false)
 		{
 
 			Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 8f, 0f);
@@ -37,7 +31,8 @@ public class SpawnManager : MonoBehaviour
 
 	IEnumerator SpawnPowerupRoutine()
 	{
-		while (_stopSpawning == false)
+    yield return new WaitForSeconds(3f);
+    while (_stopSpawning == false)
 		{
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
 			int _randomPowerup = Random.Range(0,3);
@@ -50,4 +45,10 @@ public class SpawnManager : MonoBehaviour
 	{
 		_stopSpawning = true;
 	}
+
+	public void StartSpawning()
+	{
+    StartCoroutine(SpawnEnemyRoutine());
+    StartCoroutine(SpawnPowerupRoutine());
+  }
 }

@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
   private float _playerSpeed = 10f;
 
   [SerializeField]
-  private GameObject _speedBoostPrefab;
+  private GameObject _thrusters;
   private bool _speedBoostActive = false;
   private float _speedBoostCooldown = 5f;
   private float _speedBoostMultiplier = 1.5f;
@@ -34,6 +34,10 @@ public class Player : MonoBehaviour
 
   private int _score;
   private UiManager _uiManager;
+
+  [SerializeField]
+  private GameObject _engineLeft, _engineRight;
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -58,7 +62,6 @@ public class Player : MonoBehaviour
     {
       PlayerShooting();
     }
-
   }
 
   void PlayerMovement()
@@ -94,7 +97,7 @@ public class Player : MonoBehaviour
     else
     {
       Instantiate(_laserPrefab,
-                  transform.position + new Vector3(0, 1.4f, 0),
+                  transform.position + new Vector3(0, 1.2f, 0),
                   transform.rotation);
     }
   }
@@ -114,10 +117,27 @@ public class Player : MonoBehaviour
       _uiManager.UpdateLives(_lives);
     }
 
-    if (_lives < 1)
+    switch (_lives)
     {
-      _spawnManager.OnPlayerDeath();
-      Destroy(gameObject);
+      case 3:
+        _engineLeft.SetActive(false);
+        _engineRight.SetActive(false);
+        break;
+      case 2:
+        _engineLeft.SetActive(true);
+        _engineRight.SetActive(false);
+        break;
+      case 1:
+        _engineLeft.SetActive(true);
+        _engineRight.SetActive(true);
+        break;
+      case 0:
+        _spawnManager.OnPlayerDeath();
+        Destroy(gameObject);
+        break;
+      default:
+        Debug.LogError("ERROR Lives at: " + _lives);
+        break;
     }
   }
 
@@ -136,6 +156,7 @@ public class Player : MonoBehaviour
   public void SpeedBoostActive()
   {
     _speedBoostActive = true;
+    _thrusters.SetActive(true);
     _playerSpeed *= _speedBoostMultiplier;
     StartCoroutine(SpeedBoostDowntime());
   }  
@@ -144,6 +165,7 @@ public class Player : MonoBehaviour
   {
     yield return new WaitForSeconds(_speedBoostCooldown);
     _speedBoostActive = false;
+    _thrusters.SetActive(false);
     _playerSpeed /= _speedBoostMultiplier;
   }
 
