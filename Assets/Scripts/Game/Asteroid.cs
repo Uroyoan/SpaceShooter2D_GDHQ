@@ -21,6 +21,7 @@ public class Asteroid : MonoBehaviour
     {
       Debug.LogError("_spawnManager is null");
     }
+
   }
 
   void Update()
@@ -41,6 +42,7 @@ public class Asteroid : MonoBehaviour
       Instantiate(_explosionPrefab,
                   transform.position,
                   Quaternion.identity);
+
       _spawnManager.StartSpawning();
       Destroy(gameObject, 0.1f);
     }

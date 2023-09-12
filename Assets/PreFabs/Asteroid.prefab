@@ -115,3 +115,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosionPrefab: {fileID: 2215316015008939062, guid: 2a0be448751967c469af2728da2879c7, type: 3}
+  _audioSource: {fileID: 0}
+  _ExplosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

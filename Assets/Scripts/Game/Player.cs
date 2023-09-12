@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _engineLeft, _engineRight;
 
+  [SerializeField]
+  private AudioSource _audioSource; 
+  [SerializeField]
+  private AudioClip _LaserShotClip;
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -52,6 +57,12 @@ public class Player : MonoBehaviour
     if (_uiManager == null)
     {
       Debug.LogError("UI Manager is NULL");
+    }
+
+    _audioSource = GetComponent<AudioSource>();
+    if (_audioSource == null)
+    {
+      Debug.LogError("Sound Source is NULL");
     }
   }
 
@@ -100,6 +111,8 @@ public class Player : MonoBehaviour
                   transform.position + new Vector3(0, 1.2f, 0),
                   transform.rotation);
     }
+    _audioSource.clip = _LaserShotClip;
+    _audioSource.Play();
   }
 
   public void Damage()
@@ -133,6 +146,7 @@ public class Player : MonoBehaviour
         break;
       case 0:
         _spawnManager.OnPlayerDeath();
+
         Destroy(gameObject);
         break;
       default:

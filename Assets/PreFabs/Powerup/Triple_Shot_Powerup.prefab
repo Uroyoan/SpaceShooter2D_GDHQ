@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2102049167388686441}
   - component: {fileID: 1152245302345294397}
   - component: {fileID: 1080445113987567736}
-  - component: {fileID: 7100535756475908882}
   - component: {fileID: 7897163423918433907}
+  - component: {fileID: 7100535756475908882}
   m_Layer: 0
   m_Name: Triple_Shot_Powerup
   m_TagString: Untagged
@@ -135,18 +135,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7100535756475908882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102049167388686442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1ca716b09e6cf44b6284b136539c23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &7897163423918433907
 Animator:
   serializedVersion: 4
@@ -167,3 +155,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7100535756475908882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102049167388686442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1ca716b09e6cf44b6284b136539c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _powerupID: 0
+  _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
