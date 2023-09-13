@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: -4361563758747100590}
   - component: {fileID: -4784098204767458802}
   - component: {fileID: 6969997827631383354}
-  - component: {fileID: -6782214969674738713}
   - component: {fileID: 2915299443167959084}
+  - component: {fileID: -6782214969674738713}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -156,18 +156,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-6782214969674738713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3710320911792479515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf867c3261f35e549b007099f955ca6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &2915299443167959084
 AudioSource:
   m_ObjectHideFlags: 0
@@ -264,3 +252,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6782214969674738713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3710320911792479515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf867c3261f35e549b007099f955ca6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyLaserPrefab: {fileID: 14061938995059071, guid: f2be180a92bb78e488253c54214cd78e, type: 3}
