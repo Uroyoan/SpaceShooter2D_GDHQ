@@ -63,6 +63,27 @@ public class Enemy : MonoBehaviour
     }
   }
 
+  void EnemyShooting()
+  {
+    if (Time.time > _canFire)
+    {
+      _FireRate = Random.Range(3f, 7f);
+      _canFire = Time.time + _FireRate;
+
+      GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
+                                          transform.position,
+                                          Quaternion.identity);
+      Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+      for (int i = 0; i < lasers.Length; i++)
+      {
+        lasers[i].AssignEnemyLaser();
+      }
+
+      //Debug.Break();
+    }
+  }
+
   private void OnTriggerEnter2D(Collider2D other)
   { //check collided objects tag
     switch (other.tag)
@@ -79,7 +100,7 @@ public class Enemy : MonoBehaviour
         Destroy(other.gameObject);
         if (_player != null)
         {
-          _player.AddScore(Random.Range(1,11));
+          _player.AddScore(Random.Range(1, 11));
         }
         OndeathAnimation();
         break;
@@ -98,26 +119,5 @@ public class Enemy : MonoBehaviour
     _audioSource.Play();
     Destroy(GetComponent<Collider2D>());
     Destroy(gameObject, 2.75f);
-  }
-
-  void EnemyShooting()
-  {
-    if (Time.time > _canFire)
-    {
-      _FireRate = Random.Range(3f, 7f);
-      _canFire = Time.time + _FireRate;
-
-      GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
-                                          transform.position,
-                                          Quaternion.identity);
-      Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-      for (int i = 0; i < lasers.Length; i++)
-      {
-        lasers[i].AssignEnemyLaser(); 
-      }
-
-      //Debug.Break();
-    }
   }
 }

@@ -34,12 +34,12 @@ public class UiManager : MonoBehaviour
     }
   }
 
-  public void UpdateScore (int playerScore)
+  public void UpdateScore(int playerScore)
   {
     _scoreText.text = "Score: " + playerScore;
   }
-  
-  public void UpdateLives (int currentLives)
+
+  public void UpdateLives(int currentLives)
   {
     _livesImg.sprite = _livesSprites[currentLives];
     if (currentLives == 0)
@@ -50,7 +50,7 @@ public class UiManager : MonoBehaviour
 
   IEnumerator GameOverFlikerRoutine()
   {
-    while(true)
+    while (true)
     {
       _gameOverText.gameObject.SetActive(true);
       yield return new WaitForSeconds(0.5f);

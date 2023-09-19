@@ -62,7 +62,7 @@ public class Powerup : MonoBehaviour
               break;
           }
         }
-      Destroy(this.gameObject);
+        Destroy(this.gameObject);
         break;
 
       default:

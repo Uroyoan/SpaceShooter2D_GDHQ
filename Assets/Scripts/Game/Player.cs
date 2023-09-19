@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
   private GameObject _engineLeft, _engineRight;
 
   [SerializeField]
-  private AudioSource _audioSource; 
+  private AudioSource _audioSource;
   [SerializeField]
   private AudioClip _LaserShotClip;
 
@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
     _thrusters.SetActive(true);
     _playerSpeed *= _speedBoostMultiplier;
     StartCoroutine(SpeedBoostDowntime());
-  }  
+  }
 
   IEnumerator SpeedBoostDowntime()
   {
