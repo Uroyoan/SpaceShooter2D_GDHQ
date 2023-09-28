@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,21 +13,23 @@ public class Player : MonoBehaviour
 
   [SerializeField]
   private GameObject _laserPrefab;
-  private float _fireRate = 0.2f;
-  private float _canFire = -1f;
+  private float _fireRate = 0.2f,
+                _canFire = -1f;
 
   [SerializeField]
   private GameObject _TripleShotPrefab;
   private bool _tripleShotActive = false;
   private float _tripleShotCooldown = 5f;
 
-  private float _playerSpeed = 10f;
-
   [SerializeField]
   private GameObject _thrusters;
-  private bool _speedBoostActive = false;
-  private float _speedBoostCooldown = 5f;
-  private float _speedBoostMultiplier = 1.5f;
+  private float _playerBaseSpeed = 10f,
+                _modifiedSpeed,
+                _speedBoostMultiplier = 1.5f;
+
+  [SerializeField]
+  private float _fuelamount = 100; 
+  private float _fuelBurnSpeed = 5;
 
   [SerializeField]
   private GameObject _shieldVisualPrefab;
@@ -46,6 +49,7 @@ public class Player : MonoBehaviour
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
+    _modifiedSpeed = _playerBaseSpeed;
 
     _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
     if (_spawnManager == null)
@@ -69,6 +73,8 @@ public class Player : MonoBehaviour
   void Update()
   {
     PlayerMovement();
+    SpeedBoost();
+
     if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
     {
       PlayerShooting();
@@ -81,7 +87,7 @@ public class Player : MonoBehaviour
     float horizontalInput = Input.GetAxis("Horizontal");
     float verticalInput = Input.GetAxis("Vertical");
     Vector3 direction = new(horizontalInput, verticalInput, 0);
-    transform.Translate(_playerSpeed * Time.deltaTime * direction);
+    transform.Translate(_modifiedSpeed * Time.deltaTime * direction);
 
     //Boundries
     transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.5f, 4.5f), 0);
@@ -167,20 +173,30 @@ public class Player : MonoBehaviour
     _tripleShotActive = false;
   }
 
-  public void SpeedBoostActive()
+  public void AddFuel()
   {
-    _speedBoostActive = true;
-    _thrusters.SetActive(true);
-    _playerSpeed *= _speedBoostMultiplier;
-    StartCoroutine(SpeedBoostDowntime());
+    _fuelamount = 100;
+    _uiManager.UpdateFuel(_fuelamount / 100);
   }
 
-  IEnumerator SpeedBoostDowntime()
+  public void SpeedBoost()
   {
-    yield return new WaitForSeconds(_speedBoostCooldown);
-    _speedBoostActive = false;
-    _thrusters.SetActive(false);
-    _playerSpeed /= _speedBoostMultiplier;
+    if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0)
+    {
+      _thrusters.SetActive(true);
+      _modifiedSpeed = _playerBaseSpeed * _speedBoostMultiplier;
+      _fuelamount -= Time.deltaTime * (_fuelBurnSpeed * 5);
+    }
+    else
+    {
+      _thrusters.SetActive(false);
+      _modifiedSpeed = _playerBaseSpeed;
+      if (_fuelamount <= 0)
+      {
+        _fuelamount = 0;
+      }
+    }
+    _uiManager.UpdateFuel(_fuelamount * 0.01f);
   }
 
   public void ShieldActive()

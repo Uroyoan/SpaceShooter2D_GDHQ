@@ -22,6 +22,12 @@ public class UiManager : MonoBehaviour
 
   private GameManager _gameManager;
 
+  [SerializeField]
+  private Image _livesimg;
+
+  [SerializeField]
+  private Image _fuelImg;
+  
   void Start()
   {
     _gameOverText.gameObject.SetActive(false);
@@ -58,6 +64,7 @@ public class UiManager : MonoBehaviour
       yield return new WaitForSeconds(0.5f);
     }
   }
+
   void GameOverSequence()
   {
     _gameOverText.gameObject.SetActive(true);
@@ -65,4 +72,10 @@ public class UiManager : MonoBehaviour
     _gameManager.GameOver();
     StartCoroutine(GameOverFlikerRoutine());
   }
+
+  public void UpdateFuel (float thrusterFuel)
+  {
+    _fuelImg.fillAmount = thrusterFuel;
+  }
+
 }

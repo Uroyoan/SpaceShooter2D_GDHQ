@@ -50,7 +50,7 @@ public class Powerup : MonoBehaviour
               break;
 
             case 1: // Speed Boost
-              player.SpeedBoostActive();
+              player.AddFuel();
               break;
 
             case 2: // Shields
