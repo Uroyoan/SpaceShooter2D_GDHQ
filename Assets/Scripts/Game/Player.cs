@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
   [SerializeField]
   private float _fuelamount = 100; 
-  private float _fuelBurnSpeed = 5;
+  private float _fuelBurnSpeed = 25;
 
   [SerializeField]
   private GameObject _shieldVisualPrefab;
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
   void Update()
   {
     PlayerMovement();
-    SpeedBoost();
+    SpeedBoostActive();
 
     if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
     {
@@ -179,13 +179,13 @@ public class Player : MonoBehaviour
     _uiManager.UpdateFuel(_fuelamount / 100);
   }
 
-  public void SpeedBoost()
+  public void SpeedBoostActive()
   {
     if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0)
     {
       _thrusters.SetActive(true);
       _modifiedSpeed = _playerBaseSpeed * _speedBoostMultiplier;
-      _fuelamount -= Time.deltaTime * (_fuelBurnSpeed * 5);
+      _fuelamount -= Time.deltaTime * (_fuelBurnSpeed);
     }
     else
     {
