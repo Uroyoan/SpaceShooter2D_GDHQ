@@ -34,6 +34,9 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _shieldVisualPrefab;
   private bool _shieldActive = false;
+  [SerializeField]
+  private int _shieldHealth = 3;
+  private SpriteRenderer _shieldColor;
 
   private int _score;
   private UiManager _uiManager;
@@ -67,6 +70,12 @@ public class Player : MonoBehaviour
     if (_audioSource == null)
     {
       Debug.LogError("Sound Source is NULL");
+    }
+
+    _shieldColor = _shieldVisualPrefab.GetComponent<SpriteRenderer>();
+    if (_shieldColor == null)
+    {
+      Debug.LogError("_Sprite Renderer is NULL");
     }
   }
 
@@ -121,14 +130,71 @@ public class Player : MonoBehaviour
     _audioSource.Play();
   }
 
+  public void TripleShotActive()
+  {
+    _tripleShotActive = true;
+    StartCoroutine(TripleShotDowntime());
+  }
+
+  IEnumerator TripleShotDowntime()
+  {
+    yield return new WaitForSeconds(_tripleShotCooldown);
+    _tripleShotActive = false;
+  }
+
+  public void SpeedBoostActive()
+  {
+    if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0)
+    {
+      _thrusters.SetActive(true);
+      _modifiedSpeed = _playerBaseSpeed * _speedBoostMultiplier;
+      _fuelamount -= Time.deltaTime * (_fuelBurnSpeed);
+    }
+    else
+    {
+      _thrusters.SetActive(false);
+      _modifiedSpeed = _playerBaseSpeed;
+      if (_fuelamount <= 0)
+      {
+        _fuelamount = 0;
+      }
+    }
+    _uiManager.UpdateFuel(_fuelamount * 0.01f);
+  }
+
+  public void AddFuel()
+  {
+    _fuelamount = 100;
+    _uiManager.UpdateFuel(_fuelamount / 100);
+  }
+
   public void Damage()
   {
 
     if (_shieldActive == true)
     {
-      _shieldActive = false;
-      _shieldVisualPrefab.SetActive(false);
-      return;
+      switch (_shieldHealth)
+      {
+        case 3:
+          _shieldColor.material.color = new Color(1f, 1f, 0f, 1f);
+          _shieldHealth--;
+          break;
+
+        case 2:
+          _shieldColor.material.color = new Color(1f, 0f, 0f, 1f);
+          _shieldHealth--;
+          break;
+
+        case 1:
+          _shieldHealth = 0;
+          _shieldActive = false;
+          _shieldVisualPrefab.SetActive(false);
+          break;
+
+        default:
+          Debug.Log("Reached Default in _shieldHealth switch Statement");
+          break;
+      }
     }
     else
     {
@@ -161,47 +227,11 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void TripleShotActive()
-  {
-    _tripleShotActive = true;
-    StartCoroutine(TripleShotDowntime());
-  }
-
-  IEnumerator TripleShotDowntime()
-  {
-    yield return new WaitForSeconds(_tripleShotCooldown);
-    _tripleShotActive = false;
-  }
-
-  public void AddFuel()
-  {
-    _fuelamount = 100;
-    _uiManager.UpdateFuel(_fuelamount / 100);
-  }
-
-  public void SpeedBoostActive()
-  {
-    if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0)
-    {
-      _thrusters.SetActive(true);
-      _modifiedSpeed = _playerBaseSpeed * _speedBoostMultiplier;
-      _fuelamount -= Time.deltaTime * (_fuelBurnSpeed);
-    }
-    else
-    {
-      _thrusters.SetActive(false);
-      _modifiedSpeed = _playerBaseSpeed;
-      if (_fuelamount <= 0)
-      {
-        _fuelamount = 0;
-      }
-    }
-    _uiManager.UpdateFuel(_fuelamount * 0.01f);
-  }
-
   public void ShieldActive()
   {
     _shieldActive = true;
+    _shieldHealth = 3;
+    _shieldColor.material.color = new Color(1f, 1f, 1f, 1f);
     _shieldVisualPrefab.SetActive(true);
   }
 

@@ -521,6 +521,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 2093558773}
     m_Modifications:
     - target: {fileID: 2931681015495947967, guid: b7b89c69b3e71654a9112d55cc90f432, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931681015495947967, guid: b7b89c69b3e71654a9112d55cc90f432, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931681015495947967, guid: b7b89c69b3e71654a9112d55cc90f432, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931681015495947967, guid: b7b89c69b3e71654a9112d55cc90f432, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931681015495947967, guid: b7b89c69b3e71654a9112d55cc90f432, type: 3}
       propertyPath: m_SortingLayer
       value: 2
       objectReference: {fileID: 0}
@@ -657,6 +673,7 @@ Transform:
   m_Children:
   - {fileID: 438005000}
   - {fileID: 1676146}
+  - {fileID: 1506855294}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1334,6 +1351,68 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &1506855293
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 548501494}
+    m_Modifications:
+    - target: {fileID: 1170933434054865020, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_Name
+      value: Shield_Powerup
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+--- !u!4 &1506855294 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1170933434054865022, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
+  m_PrefabInstance: {fileID: 1506855293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1510521814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,6 +2110,7 @@ MonoBehaviour:
   _thrusters: {fileID: 1427140053}
   _fuelamount: 100
   _shieldVisualPrefab: {fileID: 368196490}
+  _shieldHealth: 3
   _engineLeft: {fileID: 1093046938}
   _engineRight: {fileID: 1451229281}
   _audioSource: {fileID: 0}
