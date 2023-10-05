@@ -27,7 +27,10 @@ public class UiManager : MonoBehaviour
 
   [SerializeField]
   private Image _fuelImg;
-  
+
+  [SerializeField]
+  private TMP_Text _ammoText;
+
   void Start()
   {
     _gameOverText.gameObject.SetActive(false);
@@ -78,4 +81,8 @@ public class UiManager : MonoBehaviour
     _fuelImg.fillAmount = thrusterFuel;
   }
 
+  public void UpdateAmmo(float ammoAmount)
+  {
+    _ammoText.text = "Ammo: " + ammoAmount;
+  }
 }

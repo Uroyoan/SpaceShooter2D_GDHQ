@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
   private float _fireRate = 0.2f,
                 _canFire = -1f;
 
+  private int _currentAmmo = 15;
+
   [SerializeField]
   private GameObject _TripleShotPrefab;
   private bool _tripleShotActive = false;
@@ -28,13 +30,12 @@ public class Player : MonoBehaviour
                 _speedBoostMultiplier = 1.5f;
 
   [SerializeField]
-  private float _fuelamount = 100; 
+  private float _fuelamount = 100;
   private float _fuelBurnSpeed = 25;
 
   [SerializeField]
   private GameObject _shieldVisualPrefab;
   private bool _shieldActive = false;
-  [SerializeField]
   private int _shieldHealth = 3;
   private SpriteRenderer _shieldColor;
 
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour
   private AudioSource _audioSource;
   [SerializeField]
   private AudioClip _LaserShotClip;
+  [SerializeField]
+  private AudioClip _noAmmoClip;
 
   void Start()
   {
@@ -113,21 +116,31 @@ public class Player : MonoBehaviour
 
   void PlayerShooting()
   {
-    _canFire = Time.time + _fireRate;
-    if (_tripleShotActive == true)
+    if (_currentAmmo > 0)
     {
-      Instantiate(_TripleShotPrefab,
-                  transform.position,
-                  Quaternion.identity);
+      _canFire = Time.time + _fireRate;
+      if (_tripleShotActive == true)
+      {
+        Instantiate(_TripleShotPrefab,
+                    transform.position,
+                    Quaternion.identity);
+      }
+      else
+      {
+        Instantiate(_laserPrefab,
+                    transform.position + new Vector3(0, 1.2f, 0),
+                    transform.rotation);
+      }
+      _currentAmmo--;
+      _uiManager.UpdateAmmo(_currentAmmo);
+      _audioSource.clip = _LaserShotClip;
+      _audioSource.Play();
     }
     else
     {
-      Instantiate(_laserPrefab,
-                  transform.position + new Vector3(0, 1.2f, 0),
-                  transform.rotation);
+      _audioSource.clip = _noAmmoClip;
+      _audioSource.Play();
     }
-    _audioSource.clip = _LaserShotClip;
-    _audioSource.Play();
   }
 
   public void TripleShotActive()
@@ -170,7 +183,6 @@ public class Player : MonoBehaviour
 
   public void Damage()
   {
-
     if (_shieldActive == true)
     {
       switch (_shieldHealth)
@@ -192,7 +204,7 @@ public class Player : MonoBehaviour
           break;
 
         default:
-          Debug.Log("Reached Default in _shieldHealth switch Statement");
+          Debug.Log("_shieldHealth error in switch Statement");
           break;
       }
     }
