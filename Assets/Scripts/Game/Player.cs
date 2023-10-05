@@ -143,6 +143,12 @@ public class Player : MonoBehaviour
     }
   }
 
+  public void addAmmo()
+  {
+    _currentAmmo += 15;
+    _uiManager.UpdateAmmo(_currentAmmo);
+  }
+
   public void TripleShotActive()
   {
     _tripleShotActive = true;
