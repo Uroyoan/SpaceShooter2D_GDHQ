@@ -61,6 +61,10 @@ public class Powerup : MonoBehaviour
               player.addAmmo();
               break;
 
+            case 4: // Lives
+              player.AddLives();
+              break;
+
             default:
               Debug.Log("powerupID ERROR?");
               break;

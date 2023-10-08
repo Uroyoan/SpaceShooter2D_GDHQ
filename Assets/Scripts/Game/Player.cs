@@ -210,38 +210,21 @@ public class Player : MonoBehaviour
           break;
 
         default:
-          Debug.Log("_shieldHealth error in switch Statement");
+          Debug.Log("Player :: Damage :: _shieldActive switch Statement error");
           break;
       }
     }
     else
     {
       _lives--;
+      updateEngines();
       _uiManager.UpdateLives(_lives);
     }
 
-    switch (_lives)
+    if (_lives <= 0)
     {
-      case 3:
-        _engineLeft.SetActive(false);
-        _engineRight.SetActive(false);
-        break;
-      case 2:
-        _engineLeft.SetActive(true);
-        _engineRight.SetActive(false);
-        break;
-      case 1:
-        _engineLeft.SetActive(true);
-        _engineRight.SetActive(true);
-        break;
-      case 0:
-        _spawnManager.OnPlayerDeath();
-
-        Destroy(gameObject);
-        break;
-      default:
-        Debug.LogError("ERROR Lives at: " + _lives);
-        break;
+      _spawnManager.OnPlayerDeath();
+      Destroy(gameObject);
     }
   }
 
@@ -257,5 +240,44 @@ public class Player : MonoBehaviour
   {
     _score += points;
     _uiManager.UpdateScore(_score);
+  }
+
+  public void AddLives()
+  {
+    if (_lives < 3)
+    {
+      _lives++;
+    }
+    _uiManager.UpdateLives(_lives);
+    updateEngines();
+  }
+
+  private void updateEngines()
+  {
+    switch (_lives)
+    {
+      case 3:
+        _engineLeft.SetActive(false);
+        _engineRight.SetActive(false);
+        break;
+
+      case 2:
+        _engineLeft.SetActive(true);
+        _engineRight.SetActive(false);
+        break;
+
+      case 1:
+        _engineLeft.SetActive(true);
+        _engineRight.SetActive(true);
+        break;
+
+      case 0:
+        //check damage function
+        break;
+
+      default:
+        Debug.LogError("ERROR Lives at: " + _lives);
+        break;
+    }
   }
 }
