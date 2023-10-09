@@ -33,11 +33,6 @@ public class UiManager : MonoBehaviour
   [SerializeField]
   private TMP_Text _ammoText;
 
-  private Transform _camera;
-  private float _timePassed = 0f;
-  private float _xOffset;
-  private float _yOffset;
-  private float _shakeDuration = 1f;
   void Start()
   {
     _gameOverText.gameObject.SetActive(false);
@@ -47,11 +42,6 @@ public class UiManager : MonoBehaviour
     if (_gameManager == null)
     {
       Debug.LogError("Game_Manager is null");
-    }
-    _camera = GameObject.Find("Main Camera").GetComponent<Transform>();
-    if (_camera == null)
-    {
-      Debug.LogError("Camera is null");
     }
   }
 
@@ -63,6 +53,7 @@ public class UiManager : MonoBehaviour
   public void UpdateLives(int currentLives)
   {
     _livesImg.sprite = _livesSprites[currentLives];
+
     if (currentLives <= 0)
     {
       GameOverSequence();
@@ -85,9 +76,7 @@ public class UiManager : MonoBehaviour
     _gameOverText.gameObject.SetActive(true);
     _restartText.gameObject.SetActive(true);
     _gameManager.GameOver();
-
     StartCoroutine(GameOverFlikerRoutine());
-    StartCoroutine(CameraShake());
   }
 
   public void UpdateFuel (float thrusterFuel)
@@ -98,24 +87,5 @@ public class UiManager : MonoBehaviour
   public void UpdateAmmo(float ammoAmount)
   {
     _ammoText.text = "Ammo: " + ammoAmount;
-  }
-
-  public IEnumerator CameraShake()
-  {
-
-    Vector3 _startPos = _camera.transform.localPosition;
-
-    while (_timePassed < _shakeDuration)
-    {
-      _xOffset = Random.Range(-1f, 1f) * 0.5f;
-      _yOffset = Random.Range(-1f, 1f) * 0.5f;
-
-      _camera.transform.localPosition = new Vector3(_xOffset, _yOffset, _startPos.z);
-      _timePassed += Time.deltaTime;
-      yield return new WaitForEndOfFrame();
-    }
-    
-    _camera.transform.localPosition = _startPos;
-    _timePassed = 0;
   }
 }

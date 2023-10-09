@@ -52,6 +52,12 @@ public class Player : MonoBehaviour
   [SerializeField]
   private AudioClip _noAmmoClip;
 
+  private Transform _camera;
+  private float _timePassed = 0f;
+  private float _xOffset;
+  private float _yOffset;
+  private float _shakeDuration = 1f;
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -79,6 +85,12 @@ public class Player : MonoBehaviour
     if (_shieldColor == null)
     {
       Debug.LogError("_Sprite Renderer is NULL");
+    }
+
+    _camera = GameObject.Find("Main Camera").GetComponent<Transform>();
+    if (_camera == null)
+    {
+      Debug.LogError("Camera is null");
     }
   }
 
@@ -216,6 +228,7 @@ public class Player : MonoBehaviour
     }
     else
     {
+      StartCoroutine(CameraShake());
       _lives--;
       updateEngines();
       _uiManager.UpdateLives(_lives);
@@ -280,4 +293,23 @@ public class Player : MonoBehaviour
         break;
     }
   }
+
+  public IEnumerator CameraShake()
+  {
+
+    Vector3 _startPos = _camera.transform.localPosition;
+
+    while (_timePassed < _shakeDuration)
+    {
+      _xOffset = Random.Range(-1f, 1f) * 0.5f;
+      _yOffset = Random.Range(-1f, 1f) * 0.5f;
+
+      _camera.transform.localPosition = new Vector3(_xOffset, _yOffset, _startPos.z);
+      _timePassed += Time.deltaTime;
+      yield return new WaitForEndOfFrame();
+    }
+    _camera.transform.localPosition = _startPos;
+    _timePassed = 0;
+  }
+
 }
