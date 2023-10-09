@@ -14,6 +14,8 @@ public class SpawnManager : MonoBehaviour
   private GameObject _enemyContainer;
   [SerializeField]
   private GameObject[] _powerups;
+  private int _powerupRandomizer;
+  private int _powerupSelected;
 
   IEnumerator SpawnEnemyRoutine()
   {
@@ -35,8 +37,34 @@ public class SpawnManager : MonoBehaviour
     while (_stopSpawning == false)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
-      int _randomPowerup = Random.Range(0, 5);
-      Instantiate(_powerups[_randomPowerup], posToSpawn, Quaternion.identity);
+      powerupSelector();
+
+      switch (_powerupSelected)
+      {
+        case 0: // TripleShot
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+
+        case 1: // Speed
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+
+        case 2: // Shield
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+
+        case 3: // Ammo
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+
+        case 4: // Life
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+
+        case 5: // Spread
+          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+          break;
+      }
       yield return new WaitForSeconds(Random.Range(3, 8));
     }
   }
@@ -50,5 +78,35 @@ public class SpawnManager : MonoBehaviour
   {
     StartCoroutine(SpawnEnemyRoutine());
     StartCoroutine(SpawnPowerupRoutine());
+  }
+
+  private void powerupSelector()
+  {
+    _powerupRandomizer = Random.Range(0, 101);
+
+    if (_powerupRandomizer < 10) //Triple Shot
+    {
+      _powerupSelected = 0;
+    }
+    else if (_powerupRandomizer >= 10 && _powerupRandomizer < 39) // Speed
+    {
+      _powerupSelected = 1;
+    }
+    else if (_powerupRandomizer >= 40 && _powerupRandomizer < 49) // Shield
+    {
+      _powerupSelected = 2;
+    }
+    else if (_powerupRandomizer >= 50 && _powerupRandomizer < 79) // Ammo
+    {
+      _powerupSelected = 3;
+    }
+    else if (_powerupRandomizer >= 80 && _powerupRandomizer < 89) // Life
+    {
+      _powerupSelected = 4;
+    }
+    else if (_powerupRandomizer >= 90) // Spread
+    {
+      _powerupSelected = 5;
+    }
   }
 }

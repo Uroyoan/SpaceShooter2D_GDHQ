@@ -65,6 +65,10 @@ public class Powerup : MonoBehaviour
               player.AddLives();
               break;
 
+            case 5: // SpreadShot
+              player.SpreadShotActive();
+              break;
+
             default:
               Debug.Log("powerupID ERROR?");
               break;

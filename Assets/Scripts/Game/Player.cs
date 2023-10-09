@@ -58,6 +58,11 @@ public class Player : MonoBehaviour
   private float _yOffset;
   private float _shakeDuration = 1f;
 
+  [SerializeField]
+  private GameObject _SpreadShotPrefab;
+  private bool _spreadShotActive = false;
+  private float _spreadShotCooldown = 5f;
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -134,6 +139,12 @@ public class Player : MonoBehaviour
       if (_tripleShotActive == true)
       {
         Instantiate(_TripleShotPrefab,
+                    transform.position,
+                    Quaternion.identity);
+      }
+      else if (_spreadShotActive == true)
+      {
+        Instantiate(_SpreadShotPrefab,
                     transform.position,
                     Quaternion.identity);
       }
@@ -308,8 +319,23 @@ public class Player : MonoBehaviour
       _timePassed += Time.deltaTime;
       yield return new WaitForEndOfFrame();
     }
+    yield return new WaitForEndOfFrame();
     _camera.transform.localPosition = _startPos;
     _timePassed = 0;
   }
+
+  public void SpreadShotActive()
+  {
+    _spreadShotActive = true;
+    StartCoroutine(SpreadShotDowntime());
+  }
+
+  IEnumerator SpreadShotDowntime()
+  {
+    yield return new WaitForSeconds(_spreadShotCooldown);
+    _spreadShotActive = false;
+  }
+
+
 
 }
