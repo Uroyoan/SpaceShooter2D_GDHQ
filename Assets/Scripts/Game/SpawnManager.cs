@@ -37,34 +37,10 @@ public class SpawnManager : MonoBehaviour
     while (_stopSpawning == false)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
+
       powerupSelector();
-
-      switch (_powerupSelected)
-      {
-        case 0: // TripleShot
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-
-        case 1: // Speed
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-
-        case 2: // Shield
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-
-        case 3: // Ammo
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-
-        case 4: // Life
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-
-        case 5: // Spread
-          Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-          break;
-      }
+      Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
+      
       yield return new WaitForSeconds(Random.Range(3, 8));
     }
   }

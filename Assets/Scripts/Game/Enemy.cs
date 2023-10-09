@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
   private GameObject _enemyLaserPrefab;
   private float _FireRate = 3f;
   private float _canFire = -1f;
-
+  private bool _enemyIsDead = false;
   void Start()
   {
     _player = GameObject.Find("Player").GetComponent<Player>();
@@ -70,14 +70,16 @@ public class Enemy : MonoBehaviour
       _FireRate = Random.Range(3f, 7f);
       _canFire = Time.time + _FireRate;
 
-      GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
-                                          transform.position,
-                                          Quaternion.identity);
-      Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-      for (int i = 0; i < lasers.Length; i++)
+      if (_enemyIsDead == false)
       {
-        lasers[i].AssignEnemyLaser();
+        GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
+                                    transform.position,
+                                    Quaternion.identity);
+        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+        for (int i = 0; i < lasers.Length; i++)
+        {
+          lasers[i].AssignEnemyLaser();
+        }
       }
     }
   }
@@ -111,6 +113,7 @@ public class Enemy : MonoBehaviour
 
   void OndeathAnimation()
   {
+    _enemyIsDead = true;
     _enemySpeed = 0;
     _deathAnim.SetTrigger("OnEnemyDeath");
 
