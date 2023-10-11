@@ -18,6 +18,10 @@ public class Enemy : MonoBehaviour
   private float _FireRate = 3f;
   private float _canFire = -1f;
   private bool _enemyIsDead = false;
+
+  private Vector3 _direction = new Vector3( 0, -1, 0);
+  private float _sporaticMovementTimer = -1;
+
   void Start()
   {
     _player = GameObject.Find("Player").GetComponent<Player>();
@@ -49,17 +53,32 @@ public class Enemy : MonoBehaviour
   void EnemyMovement()
   {
     //Movement
-    transform.Translate(_enemySpeed * Time.deltaTime * Vector3.down);
+    if (Time.time > _sporaticMovementTimer)
+    {
+      _direction.x = Random.Range( -1, 2);
+      _sporaticMovementTimer = Time.time + 3f;
+    }
+    transform.Translate(_enemySpeed * Time.deltaTime * _direction);
 
-    //Boundries
-    float newPosition = Random.Range(-11, 11);
+    // y boundries
+    float newXPosition = Random.Range(-11, 11);
     if (transform.position.y > 7.5f)
     {
-      transform.position = new Vector3(newPosition, -7.5f, 0);
+      transform.position = new Vector3(newXPosition, -7.5f, 0);
     }
     else if (transform.position.y < -7.5f)
     {
-      transform.position = new Vector3(newPosition, 7.5f, 0);
+      transform.position = new Vector3(newXPosition, 7.5f, 0);
+    }
+
+    // x Boundries
+    else if (transform.position.x > 11f)
+    {
+      transform.position = new Vector3(-11f, transform.position.y, 0) ;
+    }
+    else if (transform.position.x < -11f)
+    {
+      transform.position = new Vector3(11f, transform.position.y, 0);
     }
   }
 

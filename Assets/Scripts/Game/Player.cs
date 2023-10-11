@@ -300,7 +300,7 @@ public class Player : MonoBehaviour
         break;
 
       default:
-        Debug.LogError("ERROR Lives at: " + _lives);
+        Debug.LogError("Lives at: " + _lives);
         break;
     }
   }

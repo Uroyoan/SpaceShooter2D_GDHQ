@@ -78,7 +78,7 @@ public class Powerup : MonoBehaviour
         break;
 
       default:
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
         break;
     }
   }
