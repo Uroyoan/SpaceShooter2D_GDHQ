@@ -33,6 +33,9 @@ public class UiManager : MonoBehaviour
   [SerializeField]
   private TMP_Text _ammoText;
 
+  [SerializeField]
+  private TMP_Text _wavesText;
+
   void Start()
   {
     _gameOverText.gameObject.SetActive(false);
@@ -87,5 +90,10 @@ public class UiManager : MonoBehaviour
   public void UpdateAmmo(float ammoAmount)
   {
     _ammoText.text = "Ammo: " + ammoAmount;
+  }
+
+  public void UpdateWaves(int currentWave)
+  {
+    _wavesText.text = "Wave: " + currentWave;
   }
 }

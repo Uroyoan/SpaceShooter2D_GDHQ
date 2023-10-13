@@ -7,8 +7,7 @@ public class Asteroid : MonoBehaviour
 {
 
   private float _rotationSpeed = 20f;
-  //private float _movementSpeed = 0f;
-
+  private float _movementSpeed = 1f;
   [SerializeField]
   private GameObject _explosionPrefab;
   private SpawnManager _spawnManager;
@@ -30,7 +29,17 @@ public class Asteroid : MonoBehaviour
 
   void AsteroidMovement()
   {
-    transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);
+    Vector3 currentPos = transform.position;
+    transform.Rotate (Vector3.forward * _rotationSpeed * Time.deltaTime);
+    if (currentPos.y >= 4)
+    {
+      transform.Translate(Vector3.down * _movementSpeed * Time.deltaTime ,Space.World);
+    }
+    else
+    {
+      transform.Translate(Vector3.down * 0 * Time.deltaTime);
+    }
+    
   }
 
   private void OnTriggerEnter2D(Collider2D other)

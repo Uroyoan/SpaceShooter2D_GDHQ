@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
   private bool _enemyIsDead = false;
 
   private Vector3 _direction = new Vector3( 0, -1, 0);
-  private float _sporaticMovementTimer = -1;
+  private float _sporadicMovementTimer = -1;
 
   void Start()
   {
@@ -53,14 +53,14 @@ public class Enemy : MonoBehaviour
   void EnemyMovement()
   {
     //Movement
-    if (Time.time > _sporaticMovementTimer)
+    if (Time.time > _sporadicMovementTimer)
     {
       _direction.x = Random.Range( -1, 2);
-      _sporaticMovementTimer = Time.time + 3f;
+      _sporadicMovementTimer = Time.time + 3f;
     }
     transform.Translate(_enemySpeed * Time.deltaTime * _direction);
 
-    // y boundries
+    // y boundaries
     float newXPosition = Random.Range(-11, 11);
     if (transform.position.y > 7.5f)
     {
@@ -71,10 +71,10 @@ public class Enemy : MonoBehaviour
       transform.position = new Vector3(newXPosition, 7.5f, 0);
     }
 
-    // x Boundries
+    // x Boundaries
     else if (transform.position.x > 11f)
     {
-      transform.position = new Vector3(-11f, transform.position.y, 0) ;
+      transform.position = new Vector3(-11f, transform.position.y, 0);
     }
     else if (transform.position.x < -11f)
     {

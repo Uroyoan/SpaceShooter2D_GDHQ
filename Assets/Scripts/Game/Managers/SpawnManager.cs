@@ -17,24 +17,67 @@ public class SpawnManager : MonoBehaviour
   private int _powerupRandomizer;
   private int _powerupSelected;
 
+  [SerializeField]
+  private GameObject _asteroidPrefab;
+  private int _currentWave = 0;
+
+  [SerializeField]
+  private int _enemiesToSpawn = 0;
+  private int _enemiesPerWave = 5;
+  private int _enemiesInContainer;
+
+  private UiManager _uiManager;
+
+  private void Start()
+  {
+    _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
+    if (_uiManager == null)
+    {
+      Debug.LogError("SpawnManager :: UI Manager is Null");
+    }
+  }
+
+  public void StartSpawning()
+  {
+    _currentWave++;
+    _uiManager.UpdateWaves(_currentWave);
+    _stopSpawning = false;
+    _enemiesToSpawn = _currentWave * _enemiesPerWave;
+
+      StartCoroutine(SpawnEnemyRoutine());
+      StartCoroutine(SpawnPowerupRoutine());
+
+  }
+
   IEnumerator SpawnEnemyRoutine()
   {
-    yield return new WaitForSeconds(3f);
-    while (_stopSpawning == false)
-    {
+    yield return new WaitForSeconds(2f);
 
+    while (_stopSpawning == false && _enemiesToSpawn > 0)
+    {
       Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 7f, 0f);
       GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
       newEnemy.transform.parent = _enemyContainer.transform;
+      _enemiesToSpawn--;
 
       yield return new WaitForSeconds(_spawnTime);
+    }
+
+    _enemiesInContainer = _enemyContainer.transform.childCount;
+
+    if (_stopSpawning == false && _enemiesToSpawn <=0 && _enemiesInContainer <= 0)
+    {
+      _stopSpawning = true;
+      Vector3 _asteroidPos = new Vector3(0, 7, 0);
+      GameObject newWave = Instantiate(_asteroidPrefab, _asteroidPos, Quaternion.identity);
+      newWave.transform.parent = _enemyContainer.transform;
     }
   }
 
   IEnumerator SpawnPowerupRoutine()
   {
     yield return new WaitForSeconds(3f);
-    while (_stopSpawning == false)
+    while (_stopSpawning == false && _enemiesToSpawn > 0)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
 
@@ -48,12 +91,6 @@ public class SpawnManager : MonoBehaviour
   public void OnPlayerDeath()
   {
     _stopSpawning = true;
-  }
-
-  public void StartSpawning()
-  {
-    StartCoroutine(SpawnEnemyRoutine());
-    StartCoroutine(SpawnPowerupRoutine());
   }
 
   private void powerupSelector()
