@@ -63,6 +63,9 @@ public class Player : MonoBehaviour
   private bool _spreadShotActive = false;
   private float _spreadShotCooldown = 5f;
 
+  private float _slowSpeed = 2f;
+  private bool _systemsActive = true;
+
   void Start()
   {
     transform.position = new Vector3(0, -4.4f, 0);
@@ -110,7 +113,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  void PlayerMovement()
+  void PlayerMovement ()
   {
     //Movement
     float horizontalInput = Input.GetAxis("Horizontal");
@@ -131,9 +134,9 @@ public class Player : MonoBehaviour
 
   }
 
-  void PlayerShooting()
+  void PlayerShooting ()
   {
-    if (_currentAmmo > 0)
+    if (_currentAmmo > 0 && _systemsActive == true)
     {
       _canFire = Time.time + _fireRate;
       if (_tripleShotActive == true)
@@ -166,51 +169,53 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void addAmmo()
+  public void addAmmo ()
   {
     _currentAmmo += 15;
     _uiManager.UpdateAmmo(_currentAmmo);
   }
 
-  public void TripleShotActive()
+  public void TripleShotActive ()
   {
     _tripleShotActive = true;
     StartCoroutine(TripleShotDowntime());
   }
 
-  IEnumerator TripleShotDowntime()
+  IEnumerator TripleShotDowntime ()
   {
     yield return new WaitForSeconds(_tripleShotCooldown);
     _tripleShotActive = false;
   }
 
-  public void SpeedBoostActive()
+  public void SpeedBoostActive ()
   {
-    if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0)
+    if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0 && _systemsActive == true)
     {
       _thrusters.SetActive(true);
       _modifiedSpeed = _playerBaseSpeed * _speedBoostMultiplier;
       _fuelamount -= Time.deltaTime * (_fuelBurnSpeed);
     }
-    else
+    else if (_systemsActive == true)
     {
       _thrusters.SetActive(false);
       _modifiedSpeed = _playerBaseSpeed;
-      if (_fuelamount <= 0)
-      {
-        _fuelamount = 0;
-      }
     }
+
+    if (_fuelamount <= 0)
+    {
+      _fuelamount = 0;
+    }
+
     _uiManager.UpdateFuel(_fuelamount * 0.01f);
   }
 
-  public void AddFuel()
+  public void AddFuel ()
   {
     _fuelamount = 100;
     _uiManager.UpdateFuel(_fuelamount / 100);
   }
 
-  public void Damage()
+  public void Damage ()
   {
     if (_shieldActive == true)
     {
@@ -252,7 +257,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void ShieldActive()
+  public void ShieldActive ()
   {
     _shieldActive = true;
     _shieldHealth = 3;
@@ -260,13 +265,13 @@ public class Player : MonoBehaviour
     _shieldVisualPrefab.SetActive(true);
   }
 
-  public void AddScore(int points)
+  public void AddScore (int points)
   {
     _score += points;
     _uiManager.UpdateScore(_score);
   }
 
-  public void AddLives()
+  public void AddLives ()
   {
     if (_lives < 3)
     {
@@ -276,7 +281,7 @@ public class Player : MonoBehaviour
     updateEngines();
   }
 
-  private void updateEngines()
+  private void updateEngines ()
   {
     switch (_lives)
     {
@@ -305,7 +310,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  public IEnumerator CameraShake()
+  public IEnumerator CameraShake ()
   {
 
     Vector3 _startPos = _camera.transform.localPosition;
@@ -324,18 +329,30 @@ public class Player : MonoBehaviour
     _timePassed = 0;
   }
 
-  public void SpreadShotActive()
+  public void SpreadShotActive ()
   {
     _spreadShotActive = true;
     StartCoroutine(SpreadShotDowntime());
   }
 
-  IEnumerator SpreadShotDowntime()
+  IEnumerator SpreadShotDowntime ()
   {
     yield return new WaitForSeconds(_spreadShotCooldown);
     _spreadShotActive = false;
   }
 
+  public void SystemsOffline ()
+  {
+    _systemsActive = false;
+    _modifiedSpeed = _playerBaseSpeed / _slowSpeed;
+    StartCoroutine(SystemDowntime());
+  }
 
+  IEnumerator SystemDowntime ()
+  {
+    yield return new WaitForSeconds(5f);
+    _modifiedSpeed = _playerBaseSpeed;
+    _systemsActive = true;
+  }
 
 }

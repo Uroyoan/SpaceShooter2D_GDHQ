@@ -64,6 +64,11 @@ public class SpawnManager : MonoBehaviour
     }
 
     _enemiesInContainer = _enemyContainer.transform.childCount;
+    while (_enemiesInContainer >= 1)
+    {
+      _enemiesInContainer = _enemyContainer.transform.childCount;
+      yield return new WaitForSeconds(1f);
+    }
 
     if (_stopSpawning == false && _enemiesToSpawn <=0 && _enemiesInContainer <= 0)
     {
@@ -97,29 +102,33 @@ public class SpawnManager : MonoBehaviour
   {
     _powerupRandomizer = Random.Range(0, 101);
 
-    if (_powerupRandomizer < 10) //Triple Shot
+    if (_powerupRandomizer < 15) //Triple Shot
     {
       _powerupSelected = 0;
     }
-    else if (_powerupRandomizer >= 10 && _powerupRandomizer < 39) // Speed
+    else if (_powerupRandomizer >= 16 && _powerupRandomizer < 35) // Speed
     {
       _powerupSelected = 1;
     }
-    else if (_powerupRandomizer >= 40 && _powerupRandomizer < 49) // Shield
+    else if (_powerupRandomizer >= 36 && _powerupRandomizer < 45) // Shield
     {
       _powerupSelected = 2;
     }
-    else if (_powerupRandomizer >= 50 && _powerupRandomizer < 79) // Ammo
+    else if (_powerupRandomizer >= 46 && _powerupRandomizer < 70) // Ammo
     {
       _powerupSelected = 3;
     }
-    else if (_powerupRandomizer >= 80 && _powerupRandomizer < 89) // Life
+    else if (_powerupRandomizer >= 71 && _powerupRandomizer < 80) // Life
     {
       _powerupSelected = 4;
     }
-    else if (_powerupRandomizer >= 90) // Spread
+    else if (_powerupRandomizer >= 81 && _powerupRandomizer < 90) // Spread
     {
       _powerupSelected = 5;
+    }
+    else if (_powerupRandomizer >= 91) // ION FIELD (NEGATIVE POWERUP)
+    {
+      _powerupSelected = 6;
     }
   }
 }

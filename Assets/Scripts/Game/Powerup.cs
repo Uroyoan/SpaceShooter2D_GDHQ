@@ -8,7 +8,7 @@ public class Powerup : MonoBehaviour
 
   private float _powerupSpeed = 3f;
   [SerializeField]
-  private int _powerupID; // 0 = TripleShot, 1 = Speedup, 2 = Shields, 3= Ammo
+  private int _powerupID; // Check function for powerups
   [SerializeField]
   private AudioClip _clip;
 
@@ -67,6 +67,10 @@ public class Powerup : MonoBehaviour
 
             case 5: // SpreadShot
               player.SpreadShotActive();
+              break;
+
+            case 6: // Ion Field (Negative Power-up)
+              player.SystemsOffline();
               break;
 
             default:
