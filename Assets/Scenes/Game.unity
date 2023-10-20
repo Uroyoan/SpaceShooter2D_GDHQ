@@ -791,10 +791,9 @@ MonoBehaviour:
   _enemyPrefab:
   - {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
   _enemyContainer: {fileID: 1676145}
-  _enemiesToSpawn: 0
-  _enemySelected: 0
+  _enemyDropTable: 64000000
   _asteroidPrefab: {fileID: 1834178656881212440, guid: 311a611a561feb34caed9f064bc726c9, type: 3}
-  _powerups:
+  _powerupsPrefab:
   - {fileID: 1170933434054865020, guid: 90aa3b32e49cff74390c824355f2685b, type: 3}
   - {fileID: 4405331485098110390, guid: ce07307543fc69d4d81c7c39b39d4df1, type: 3}
   - {fileID: 2102049167388686442, guid: e38a7661daf46e24cbe33bcf57ef5e36, type: 3}

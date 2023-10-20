@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-  //Variables
   private UiManager _uiManager;
 
   float _spawnTime = 5f;
@@ -14,16 +13,14 @@ public class SpawnManager : MonoBehaviour
   private GameObject[] _enemyPrefab;
   [SerializeField]
   private GameObject _enemyContainer;
-  [SerializeField]
+  private int _enemiesInContainer;
   private int _enemiesToSpawn = 0;
   private int _enemiesPerWave = 5;
-  private int _enemiesInContainer;
-
-  [SerializeField]
   private int _enemySelected;
   private int _enemyTotalPercentage;
   private int _enemyRandomNumber;
   private int _enemyCompareNumber = 0;
+  [SerializeField]
   private int[] _enemyDropTable =
                 {
                   100  // Basic Enemy = 0 to 100
@@ -34,12 +31,13 @@ public class SpawnManager : MonoBehaviour
   private int _currentWave = 0;
 
   [SerializeField]
-  private GameObject[] _powerups;
+  private GameObject[] _powerupsPrefab;
   private int _powerupSelected;
   private int _powerupTotalPercentage;
   private int _powerupRandomNumber;
   private int _powerupCompareNumber = 0;
-  private int[] _powerupDroptable =
+  [SerializeField]
+  private int[] _powerupDropTable =
                 {
                   20, // Ammo = 1 to 20
                   20, // Speed = 21 to 40
@@ -52,17 +50,29 @@ public class SpawnManager : MonoBehaviour
 
   private void Start()
   {
-
-    foreach (var powerup in _powerupDroptable)
+    //check Powerup Percentage
+    foreach (var powerup in _powerupDropTable)
     {
       _powerupTotalPercentage += powerup;
     }
     if (_powerupTotalPercentage != 100)
     {
       Debug.LogError("SpawnManager ::" +
-        "             Percentage of Powerup (" + _powerupTotalPercentage + ") is not equal to 100%");
+        "             Percentage of Powerup (" + _powerupTotalPercentage + ") does not equal 100%");
     }
 
+    //Check Enemy Percentage
+    foreach (var enemies in _enemyDropTable)
+    {
+      _enemyTotalPercentage += enemies;
+    }
+    if (_enemyTotalPercentage != 100)
+    {
+      Debug.LogError("SpawnManager ::" +
+        "             Percentage of Enemies (" + _enemyTotalPercentage + ") does not equal 100%");
+    }
+
+    //check is UI manager is Null
     _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
     if (_uiManager == null)
     {
@@ -77,8 +87,8 @@ public class SpawnManager : MonoBehaviour
     _stopSpawning = false;
     _enemiesToSpawn = _currentWave * _enemiesPerWave;
 
-      StartCoroutine(SpawnEnemyRoutine());
-      StartCoroutine(SpawnPowerupRoutine());
+    StartCoroutine(SpawnEnemyRoutine());
+    StartCoroutine(SpawnPowerupRoutine());
 
   }
 
@@ -103,7 +113,7 @@ public class SpawnManager : MonoBehaviour
       yield return new WaitForSeconds(1f);
     }
 
-    if (_stopSpawning == false && _enemiesToSpawn <=0 && _enemiesInContainer <= 0)
+    if (_stopSpawning == false && _enemiesToSpawn <= 0 && _enemiesInContainer <= 0)
     {
       _stopSpawning = true;
       Vector3 _asteroidPos = new Vector3(0, 7, 0);
@@ -120,8 +130,8 @@ public class SpawnManager : MonoBehaviour
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
 
       PowerupSelector();
-      Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
-      
+      Instantiate(_powerupsPrefab[_powerupSelected], posToSpawn, Quaternion.identity);
+
       yield return new WaitForSeconds(Random.Range(3, 8));
     }
   }
@@ -136,16 +146,16 @@ public class SpawnManager : MonoBehaviour
     _powerupRandomNumber = Random.Range(1, _powerupTotalPercentage + 1);
     _powerupCompareNumber = 0;
 
-      for (int i = 0; i < _powerupDroptable.Length; i++)
-      {
-        _powerupCompareNumber += _powerupDroptable[i];
+    for (int i = 0; i < _powerupDropTable.Length; i++)
+    {
+      _powerupCompareNumber += _powerupDropTable[i];
 
-        if (_powerupCompareNumber >= _powerupRandomNumber)
-        { 
-          _powerupSelected = i;
-          return;
-        }
+      if (_powerupCompareNumber >= _powerupRandomNumber)
+      {
+        _powerupSelected = i;
+        return;
       }
+    }
   }
 
   private void EnemySelector()

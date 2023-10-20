@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Powerup : MonoBehaviour
 {
@@ -11,10 +12,25 @@ public class Powerup : MonoBehaviour
   private int _powerupID; // Check function for powerups
   [SerializeField]
   private AudioClip _clip;
+  private Player _player;
+
+  private void Start()
+  {
+    _player = GameObject.Find("Player").GetComponent<Player>();
+    if (_player == null)
+    {
+      Debug.LogError("Powerup :: _player is NULL");
+    }
+  }
 
   void Update()
   {
     PowerupMovement();
+
+    if (Input.GetKey(KeyCode.C))
+    {
+      PickupCollect();
+    }
   }
 
   private void PowerupMovement()
@@ -30,6 +46,30 @@ public class Powerup : MonoBehaviour
     else if (transform.position.y < -7.5f)
     {
       Destroy(this.gameObject);
+    }
+  }
+
+  private void PickupCollect()
+  {
+    Vector3 playerPos = _player.transform.position;
+    Vector3 powerupPos = transform.position;
+
+    if (powerupPos.y > playerPos.y)
+    {
+      transform.Translate(_powerupSpeed * Time.deltaTime * Vector3.down);
+    }
+    else
+    {
+      transform.Translate(_powerupSpeed * Time.deltaTime * (Vector3.up * 2));
+    }
+
+    if (powerupPos.x > playerPos.x)
+    {
+      transform.Translate(_powerupSpeed * Time.deltaTime * Vector3.left);
+    }
+    else
+    {
+      transform.Translate(_powerupSpeed * Time.deltaTime * Vector3.right);
     }
   }
 
