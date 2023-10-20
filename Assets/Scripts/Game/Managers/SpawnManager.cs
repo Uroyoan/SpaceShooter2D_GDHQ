@@ -11,18 +11,23 @@ public class SpawnManager : MonoBehaviour
   private bool _stopSpawning = false;
 
   [SerializeField]
-  private GameObject _enemyPrefab;
+  private GameObject[] _enemyPrefab;
   [SerializeField]
   private GameObject _enemyContainer;
-
-  [SerializeField]
-  private int _totalEnemies;
-  [SerializeField]
-  private int _randomEnemy;
   [SerializeField]
   private int _enemiesToSpawn = 0;
   private int _enemiesPerWave = 5;
   private int _enemiesInContainer;
+
+  [SerializeField]
+  private int _enemySelected;
+  private int _enemyTotalPercentage;
+  private int _enemyRandomNumber;
+  private int _enemyCompareNumber = 0;
+  private int[] _enemyDropTable =
+                {
+                  100  // Basic Enemy = 0 to 100
+                };
 
   [SerializeField]
   private GameObject _asteroidPrefab;
@@ -30,24 +35,19 @@ public class SpawnManager : MonoBehaviour
 
   [SerializeField]
   private GameObject[] _powerups;
-  [SerializeField]
   private int _powerupSelected;
-  [SerializeField]
   private int _powerupTotalPercentage;
-  [SerializeField]
   private int _powerupRandomNumber;
-  [SerializeField]
   private int _powerupCompareNumber = 0;
-  [SerializeField]
   private int[] _powerupDroptable =
                 {
-                  20, // Ammo
-                  20, // Speed
-                  15, // Triple Shot
-                  15, // Spread Shot
-                  15, // Life
-                  10, // Shield
-                  5,  // Ion Field
+                  20, // Ammo = 1 to 20
+                  20, // Speed = 21 to 40
+                  15, // Triple Shot = 41 to 45
+                  15, // Spread Shot = 56 to 70
+                  15, // Life = 71 to 85
+                  10, // Shield = 86 to 95
+                  5,  // Ion Field = 96 to 100
                 };
 
   private void Start()
@@ -59,7 +59,8 @@ public class SpawnManager : MonoBehaviour
     }
     if (_powerupTotalPercentage != 100)
     {
-      Debug.LogError("SpawnManager :: Percentage of Powerup (" + _powerupTotalPercentage + ") is not equal to 100%");
+      Debug.LogError("SpawnManager ::" +
+        "             Percentage of Powerup (" + _powerupTotalPercentage + ") is not equal to 100%");
     }
 
     _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
@@ -88,7 +89,7 @@ public class SpawnManager : MonoBehaviour
     while (_stopSpawning == false && _enemiesToSpawn > 0)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 7f, 0f);
-      GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+      GameObject newEnemy = Instantiate(_enemyPrefab[_enemySelected], posToSpawn, Quaternion.identity);
       newEnemy.transform.parent = _enemyContainer.transform;
       _enemiesToSpawn--;
 
@@ -132,8 +133,7 @@ public class SpawnManager : MonoBehaviour
 
   private void PowerupSelector()
   {
-
-    _powerupRandomNumber = Random.Range(0, _powerupTotalPercentage);
+    _powerupRandomNumber = Random.Range(1, _powerupTotalPercentage + 1);
     _powerupCompareNumber = 0;
 
       for (int i = 0; i < _powerupDroptable.Length; i++)
@@ -146,5 +146,22 @@ public class SpawnManager : MonoBehaviour
           return;
         }
       }
+  }
+
+  private void EnemySelector()
+  {
+    _enemyRandomNumber = Random.Range(1, _enemyTotalPercentage + 1);
+    _enemyCompareNumber = 0;
+
+    for (int i = 0; i < _enemyDropTable.Length; i++)
+    {
+      _enemyCompareNumber += _enemyDropTable[i];
+
+      if (_enemyCompareNumber >= _enemyRandomNumber)
+      {
+        _enemySelected = i;
+        return;
+      }
+    }
   }
 }

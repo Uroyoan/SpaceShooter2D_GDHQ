@@ -788,11 +788,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335109c5eac633e4685e264dbac5dc78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
+  _enemyPrefab:
+  - {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
   _enemyContainer: {fileID: 1676145}
-  _totalEnemies: 0
-  _randomEnemy: 0
   _enemiesToSpawn: 0
+  _enemySelected: 0
   _asteroidPrefab: {fileID: 1834178656881212440, guid: 311a611a561feb34caed9f064bc726c9, type: 3}
   _powerups:
   - {fileID: 1170933434054865020, guid: 90aa3b32e49cff74390c824355f2685b, type: 3}
@@ -802,10 +802,6 @@ MonoBehaviour:
   - {fileID: 9093427776061192478, guid: 5d52d0f6385b1174d97e41d5d83e7561, type: 3}
   - {fileID: 1170933434054865020, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
   - {fileID: 1170933434054865020, guid: 6b13eb9fb521acd4993a427473da6222, type: 3}
-  _powerupSelected: 0
-  _powerupTotalPercentage: 0
-  _powerupRandomNumber: 0
-  _powerupCompareNumber: 0
   _powerupDroptable: 14000000140000000f0000000f0000000f0000000a00000005000000
 --- !u!4 &548501494
 Transform:
