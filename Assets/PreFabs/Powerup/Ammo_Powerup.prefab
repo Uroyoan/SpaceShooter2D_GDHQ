@@ -167,5 +167,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1ca716b09e6cf44b6284b136539c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _powerupID: 3
+  _powerupID: 0
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}

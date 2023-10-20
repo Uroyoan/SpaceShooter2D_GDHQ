@@ -45,28 +45,28 @@ public class Powerup : MonoBehaviour
         {
           switch (_powerupID)
           {
-            case 0: // Triple Shot
-              player.TripleShotActive();
+            case 0: // Ammo
+              player.addAmmo();
               break;
 
             case 1: // Speed Boost
               player.AddFuel();
               break;
 
-            case 2: // Shields
-              player.ShieldActive();
+            case 2: // Triple Shot
+              player.TripleShotActive();
               break;
 
-            case 3: // Ammo
-              player.addAmmo();
+            case 3: // Spread Shot
+              player.SpreadShotActive();
               break;
 
             case 4: // Lives
               player.AddLives();
               break;
 
-            case 5: // SpreadShot
-              player.SpreadShotActive();
+            case 5: // Shields
+              player.ShieldActive();
               break;
 
             case 6: // Ion Field (Negative Power-up)

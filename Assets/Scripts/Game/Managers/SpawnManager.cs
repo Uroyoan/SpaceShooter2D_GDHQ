@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
   //Variables
+  private UiManager _uiManager;
+
   float _spawnTime = 5f;
   private bool _stopSpawning = false;
 
@@ -12,24 +14,54 @@ public class SpawnManager : MonoBehaviour
   private GameObject _enemyPrefab;
   [SerializeField]
   private GameObject _enemyContainer;
+
   [SerializeField]
-  private GameObject[] _powerups;
-  private int _powerupRandomizer;
-  private int _powerupSelected;
+  private int _totalEnemies;
+  [SerializeField]
+  private int _randomEnemy;
+  [SerializeField]
+  private int _enemiesToSpawn = 0;
+  private int _enemiesPerWave = 5;
+  private int _enemiesInContainer;
 
   [SerializeField]
   private GameObject _asteroidPrefab;
   private int _currentWave = 0;
 
   [SerializeField]
-  private int _enemiesToSpawn = 0;
-  private int _enemiesPerWave = 5;
-  private int _enemiesInContainer;
-
-  private UiManager _uiManager;
+  private GameObject[] _powerups;
+  [SerializeField]
+  private int _powerupSelected;
+  [SerializeField]
+  private int _powerupTotalPercentage;
+  [SerializeField]
+  private int _powerupRandomNumber;
+  [SerializeField]
+  private int _powerupCompareNumber = 0;
+  [SerializeField]
+  private int[] _powerupDroptable =
+                {
+                  20, // Ammo
+                  20, // Speed
+                  15, // Triple Shot
+                  15, // Spread Shot
+                  15, // Life
+                  10, // Shield
+                  5,  // Ion Field
+                };
 
   private void Start()
   {
+
+    foreach (var powerup in _powerupDroptable)
+    {
+      _powerupTotalPercentage += powerup;
+    }
+    if (_powerupTotalPercentage != 100)
+    {
+      Debug.LogError("SpawnManager :: Percentage of Powerup (" + _powerupTotalPercentage + ") is not equal to 100%");
+    }
+
     _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
     if (_uiManager == null)
     {
@@ -86,7 +118,7 @@ public class SpawnManager : MonoBehaviour
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7f, 0f);
 
-      powerupSelector();
+      PowerupSelector();
       Instantiate(_powerups[_powerupSelected], posToSpawn, Quaternion.identity);
       
       yield return new WaitForSeconds(Random.Range(3, 8));
@@ -98,37 +130,21 @@ public class SpawnManager : MonoBehaviour
     _stopSpawning = true;
   }
 
-  private void powerupSelector()
+  private void PowerupSelector()
   {
-    _powerupRandomizer = Random.Range(0, 101);
 
-    if (_powerupRandomizer < 15) //Triple Shot
-    {
-      _powerupSelected = 0;
-    }
-    else if (_powerupRandomizer >= 16 && _powerupRandomizer < 35) // Speed
-    {
-      _powerupSelected = 1;
-    }
-    else if (_powerupRandomizer >= 36 && _powerupRandomizer < 45) // Shield
-    {
-      _powerupSelected = 2;
-    }
-    else if (_powerupRandomizer >= 46 && _powerupRandomizer < 70) // Ammo
-    {
-      _powerupSelected = 3;
-    }
-    else if (_powerupRandomizer >= 71 && _powerupRandomizer < 80) // Life
-    {
-      _powerupSelected = 4;
-    }
-    else if (_powerupRandomizer >= 81 && _powerupRandomizer < 90) // Spread
-    {
-      _powerupSelected = 5;
-    }
-    else if (_powerupRandomizer >= 91) // ION FIELD (NEGATIVE POWERUP)
-    {
-      _powerupSelected = 6;
-    }
+    _powerupRandomNumber = Random.Range(0, _powerupTotalPercentage);
+    _powerupCompareNumber = 0;
+
+      for (int i = 0; i < _powerupDroptable.Length; i++)
+      {
+        _powerupCompareNumber += _powerupDroptable[i];
+
+        if (_powerupCompareNumber >= _powerupRandomNumber)
+        { 
+          _powerupSelected = i;
+          return;
+        }
+      }
   }
 }
