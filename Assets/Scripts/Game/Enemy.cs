@@ -151,6 +151,7 @@ public class Enemy : MonoBehaviour
       }
       else if (other.tag == "Player")
       {
+        _player.Damage();
         DeactivateShield();
       }
     }

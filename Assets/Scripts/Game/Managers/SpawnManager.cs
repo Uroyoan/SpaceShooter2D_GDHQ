@@ -18,9 +18,7 @@ public class SpawnManager : MonoBehaviour
   private int _enemiesPerWave = 5;
   private int _enemySelected;
   private int _enemyTotalPercentage;
-  [SerializeField]
   private int _enemyRandomNumber;
-  [SerializeField]
   private int _enemyCompareNumber = 0;
   [SerializeField]
   private int[] _enemyDropTable =
