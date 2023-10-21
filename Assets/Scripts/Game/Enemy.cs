@@ -19,11 +19,20 @@ public class Enemy : MonoBehaviour
   private float _canFire = -1f;
   private bool _enemyIsDead = false;
 
-  private Vector3 _direction = new Vector3( 0, -1, 0);
+  private Vector3 _direction = new Vector3(0, -1, 0);
   private float _sporadicMovementTimer = -1;
+
+  [SerializeField]
+  private GameObject _enemyShieldVisualPrefab;
+  private bool _isShieldActive = true;
 
   void Start()
   {
+    if (this.gameObject.tag != "Enemy_Rammer")
+    {
+      DeactivateShield();
+    }
+
     _player = GameObject.Find("Player").GetComponent<Player>();
     if (_player == null)
     {
@@ -54,7 +63,7 @@ public class Enemy : MonoBehaviour
     //Movement
     if (Time.time > _sporadicMovementTimer)
     {
-      _direction.x = Random.Range( -1, 2);
+      _direction.x = Random.Range(-1, 2);
       _sporadicMovementTimer = Time.time + 3f;
     }
     transform.Translate(_enemySpeed * Time.deltaTime * _direction);
@@ -104,28 +113,46 @@ public class Enemy : MonoBehaviour
 
   private void OnTriggerEnter2D(Collider2D other)
   { //check collided objects tag
-    switch (other.tag)
+    if (_isShieldActive == false)
     {
-      case "Player":
-        if (_player != null)
-        {
-          _player.Damage();
-        }
-        OndeathAnimation();
-        break;
+      switch (other.tag)
+      {
+        case "Player":
+          if (_player != null)
+          {
+            _player.Damage();
+          }
+          OndeathAnimation();
+          break;
 
-      case "Laser":
+        case "Laser":
+          Destroy(other.gameObject);
+
+          if (_player != null)
+          {
+            _player.AddScore(Random.Range(1, 11));
+          }
+          OndeathAnimation();
+
+
+          break;
+
+        default:
+          Debug.Log("Hit by: " + other.tag);
+          break;
+      }
+    }
+    else
+    {
+      if (other.tag == "Laser")
+      {
         Destroy(other.gameObject);
-        if (_player != null)
-        {
-          _player.AddScore(Random.Range(1, 11));
-        }
-        OndeathAnimation();
-        break;
-
-      default:
-        Debug.Log("Hit by: " + other.tag);
-        break;
+        DeactivateShield();
+      }
+      else if (other.tag == "Player")
+      {
+        DeactivateShield();
+      }
     }
   }
 
@@ -137,6 +164,13 @@ public class Enemy : MonoBehaviour
 
     _audioSource.Play();
     Destroy(GetComponent<Collider2D>());
-    Destroy(gameObject, 2.75f);
+    Destroy(gameObject, 2.70f);
   }
+
+  public void DeactivateShield()
+  {
+    _isShieldActive = false;
+    _enemyShieldVisualPrefab.SetActive(false);
+  }
+
 }

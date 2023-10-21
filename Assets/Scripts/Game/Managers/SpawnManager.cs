@@ -18,12 +18,15 @@ public class SpawnManager : MonoBehaviour
   private int _enemiesPerWave = 5;
   private int _enemySelected;
   private int _enemyTotalPercentage;
+  [SerializeField]
   private int _enemyRandomNumber;
+  [SerializeField]
   private int _enemyCompareNumber = 0;
   [SerializeField]
   private int[] _enemyDropTable =
                 {
-                  100  // Basic Enemy = 0 to 100
+                  80, // Basic Enemy = 0 to 80
+                  20  // Ramming Enemy = 81 to 100
                 };
 
   [SerializeField]
@@ -98,6 +101,8 @@ public class SpawnManager : MonoBehaviour
 
     while (_stopSpawning == false && _enemiesToSpawn > 0)
     {
+      EnemySelector();
+
       Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 7f, 0f);
       GameObject newEnemy = Instantiate(_enemyPrefab[_enemySelected], posToSpawn, Quaternion.identity);
       newEnemy.transform.parent = _enemyContainer.transform;

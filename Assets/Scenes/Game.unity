@@ -790,8 +790,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab:
   - {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
+  - {fileID: 7496154127880849546, guid: bf503175e1bc3894989ba102c1aa0497, type: 3}
   _enemyContainer: {fileID: 1676145}
-  _enemyDropTable: 64000000
+  _enemyRandomNumber: 0
+  _enemyCompareNumber: 0
+  _enemyDropTable: 5000000014000000
   _asteroidPrefab: {fileID: 1834178656881212440, guid: 311a611a561feb34caed9f064bc726c9, type: 3}
   _powerupsPrefab:
   - {fileID: 1170933434054865020, guid: 90aa3b32e49cff74390c824355f2685b, type: 3}
@@ -801,7 +804,7 @@ MonoBehaviour:
   - {fileID: 9093427776061192478, guid: 5d52d0f6385b1174d97e41d5d83e7561, type: 3}
   - {fileID: 1170933434054865020, guid: 1a43ee1e094718749af1f2d3a58e5ea0, type: 3}
   - {fileID: 1170933434054865020, guid: 6b13eb9fb521acd4993a427473da6222, type: 3}
-  _powerupDroptable: 14000000140000000f0000000f0000000f0000000a00000005000000
+  _powerupDropTable: 14000000140000000f0000000f0000000f0000000a00000005000000
 --- !u!4 &548501494
 Transform:
   m_ObjectHideFlags: 0
@@ -2395,7 +2398,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093558770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
