@@ -26,6 +26,10 @@ public class Enemy : MonoBehaviour
   private GameObject _enemyShieldVisualPrefab;
   private bool _isShieldActive = true;
 
+  private Vector3 _enemyLocation;
+  private Vector3 _playerLocation;
+  private float _enemyProximity;
+
   void Start()
   {
     if (this.gameObject.tag != "Enemy_Rammer")
@@ -60,12 +64,29 @@ public class Enemy : MonoBehaviour
 
   void EnemyMovement()
   {
-    //Movement
-    if (Time.time > _sporadicMovementTimer)
+    //Movement Direction
+      switch(gameObject.tag)
     {
-      _direction.x = Random.Range(-1, 2);
-      _sporadicMovementTimer = Time.time + 3f;
+      case "Enemy":
+        if (Time.time > _sporadicMovementTimer)
+        {
+          _direction.x = Random.Range(-1, 2);
+          _sporadicMovementTimer = Time.time + 3f;
+        }
+        break;
+
+      case "Enemy_Rammer":
+        if (Time.time > _sporadicMovementTimer)
+        {
+          AggressiveEnemy();
+          _sporadicMovementTimer = Time.time + 1.25f;
+        }
+        break;
+
+      default:
+        break;
     }
+    //Movement
     transform.Translate(_enemySpeed * Time.deltaTime * _direction);
 
     // y boundaries
@@ -172,6 +193,24 @@ public class Enemy : MonoBehaviour
   {
     _isShieldActive = false;
     _enemyShieldVisualPrefab.SetActive(false);
+  }
+
+  public void AggressiveEnemy()
+  {
+    _enemyLocation = gameObject.transform.position;
+    _playerLocation = _player.gameObject.transform.position;
+    _enemyProximity = _enemyLocation.x - _playerLocation.x;
+    if (_isShieldActive == true)
+    {
+      if (_enemyProximity < 4 && _enemyProximity > 0)
+      {
+        _direction.x = -1;
+      }
+      else if (_enemyProximity > -4 && _enemyProximity < 0)
+      {
+        _direction.x = 1;
+      }
+    }
   }
 
 }

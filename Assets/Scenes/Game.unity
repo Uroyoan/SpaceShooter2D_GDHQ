@@ -788,10 +788,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335109c5eac633e4685e264dbac5dc78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyContainer: {fileID: 1676145}
   _enemyPrefab:
   - {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
   - {fileID: 7496154127880849546, guid: bf503175e1bc3894989ba102c1aa0497, type: 3}
-  _enemyContainer: {fileID: 1676145}
   _enemyDropTable: 5000000014000000
   _asteroidPrefab: {fileID: 1834178656881212440, guid: 311a611a561feb34caed9f064bc726c9, type: 3}
   _powerupsPrefab:

@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
 
   void Start()
   {
-    transform.position = new Vector3(0, -4.4f, 0);
+    transform.position = new Vector3(0, -3f, 0);
     _modifiedSpeed = _playerBaseSpeed;
 
     _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();

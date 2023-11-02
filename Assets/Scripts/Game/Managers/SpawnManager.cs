@@ -10,9 +10,9 @@ public class SpawnManager : MonoBehaviour
   private bool _stopSpawning = false;
 
   [SerializeField]
-  private GameObject[] _enemyPrefab;
-  [SerializeField]
   private GameObject _enemyContainer;
+  [SerializeField]
+  private GameObject[] _enemyPrefab;
   private int _enemiesInContainer;
   private int _enemiesToSpawn = 0;
   private int _enemiesPerWave = 5;
