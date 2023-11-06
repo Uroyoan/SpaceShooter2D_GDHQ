@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
                 {
                   70, // Basic Enemy = 0 to 70
                   20,  // Ramming Enemy = 71 to 90
-                  10,  // Ramming Enemy = 91 to 100
+                  10,  // Smart Enemy = 91 to 100
                 };
 
   [SerializeField]
