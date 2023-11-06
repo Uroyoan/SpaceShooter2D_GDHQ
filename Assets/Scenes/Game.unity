@@ -792,7 +792,8 @@ MonoBehaviour:
   _enemyPrefab:
   - {fileID: 3710320911792479515, guid: b94326adb9b86b343975e89d5fe4eacd, type: 3}
   - {fileID: 7496154127880849546, guid: bf503175e1bc3894989ba102c1aa0497, type: 3}
-  _enemyDropTable: 5000000014000000
+  - {fileID: 4855762792446831490, guid: 6e3d08b38f6d68f47b866459ae111e58, type: 3}
+  _enemyDropTable: 46000000140000000a000000
   _asteroidPrefab: {fileID: 1834178656881212440, guid: 311a611a561feb34caed9f064bc726c9, type: 3}
   _powerupsPrefab:
   - {fileID: 1170933434054865020, guid: 90aa3b32e49cff74390c824355f2685b, type: 3}

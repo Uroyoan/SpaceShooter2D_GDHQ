@@ -23,8 +23,9 @@ public class SpawnManager : MonoBehaviour
   [SerializeField]
   private int[] _enemyDropTable =
                 {
-                  80, // Basic Enemy = 0 to 80
-                  20  // Ramming Enemy = 81 to 100
+                  70, // Basic Enemy = 0 to 70
+                  20,  // Ramming Enemy = 71 to 90
+                  10,  // Ramming Enemy = 91 to 100
                 };
 
   [SerializeField]
