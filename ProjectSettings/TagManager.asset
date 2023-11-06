@@ -8,6 +8,7 @@ TagManager:
   - Laser
   - Asteroid
   - Enemy_Rammer
+  - Enemy_Smart
   layers:
   - Default
   - TransparentFX

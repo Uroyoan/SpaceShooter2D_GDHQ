@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,6 +30,8 @@ public class Enemy : MonoBehaviour
   private Vector3 _enemyLocation;
   private Vector3 _playerLocation;
   private float _enemyProximity;
+
+  private Quaternion _laserRotation;
 
   void Start()
   {
@@ -65,27 +68,28 @@ public class Enemy : MonoBehaviour
   void EnemyMovement()
   {
     //Movement Direction
-      switch(gameObject.tag)
+    if (Time.time > _sporadicMovementTimer)
     {
-      case "Enemy":
-        if (Time.time > _sporadicMovementTimer)
-        {
+      switch (gameObject.tag)
+      {
+        case "Enemy":
           _direction.x = Random.Range(-1, 2);
           _sporadicMovementTimer = Time.time + 3f;
-        }
-        break;
+          break;
 
-      case "Enemy_Rammer":
-        if (Time.time > _sporadicMovementTimer)
-        {
-          AggressiveEnemy();
+        case "Enemy_Rammer":
+          AggressiveEnemyMovement();
           _sporadicMovementTimer = Time.time + 1.25f;
-        }
-        break;
-
-      default:
-        break;
+          break;
+        case "Enemy_Smart":
+          _direction.x = Random.Range(-1, 2);
+          _sporadicMovementTimer = Time.time + 1f;
+          break;
+        default:
+          break;
+      }
     }
+
     //Movement
     transform.Translate(_enemySpeed * Time.deltaTime * _direction);
 
@@ -115,19 +119,32 @@ public class Enemy : MonoBehaviour
   {
     if (Time.time > _canFire)
     {
-      _FireRate = Random.Range(3f, 7f);
       _canFire = Time.time + _FireRate;
-
       if (_enemyIsDead == false)
       {
-        GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
-                                    transform.position,
-                                    Quaternion.identity);
-        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-        for (int i = 0; i < lasers.Length; i++)
+        switch (gameObject.tag)
         {
-          lasers[i].AssignEnemyLaser();
+          case "Enemy" or "Enemy_Rammer":
+            _FireRate = Random.Range(3f, 7f);
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
+                                                transform.position,
+                                                Quaternion.identity);
+            Laser[] Basiclasers = enemyLaser.GetComponentsInChildren<Laser>();
+            for (int i = 0; i < Basiclasers.Length; i++)
+            {
+              Basiclasers[i].AssignEnemyLaser();
+            }
+            break;
+
+          case "Enemy_Smart":
+            _FireRate = Random.Range(1.5f, 3f);
+            SmartEnemyLaser();
+            break;
+
+          default:
+            break;
         }
+
       }
     }
   }
@@ -195,7 +212,7 @@ public class Enemy : MonoBehaviour
     _enemyShieldVisualPrefab.SetActive(false);
   }
 
-  public void AggressiveEnemy()
+  public void AggressiveEnemyMovement()
   {
     _enemyLocation = gameObject.transform.position;
     _playerLocation = _player.gameObject.transform.position;
@@ -209,6 +226,38 @@ public class Enemy : MonoBehaviour
       else if (_enemyProximity > -4 && _enemyProximity < 0)
       {
         _direction.x = 1;
+      }
+    }
+  }
+
+  public void SmartEnemyMovement()
+  {
+    //Future Movmenent Enemy
+  }
+
+  public void SmartEnemyLaser()
+  {
+    _enemyLocation = gameObject.transform.position;
+    _playerLocation = _player.gameObject.transform.position;
+    _enemyProximity = _enemyLocation.x - _playerLocation.x;
+    if (_enemyProximity < 3 && _enemyProximity > -3)
+    {
+      if (_enemyLocation.y > _playerLocation.y)
+      {
+        _laserRotation = Quaternion.identity;
+      }
+      if (_enemyLocation.y < _playerLocation.y)
+      {
+        _laserRotation = Quaternion.identity;
+        _laserRotation.z = 180;
+      }
+      GameObject smartEnemyLaser = Instantiate(_enemyLaserPrefab,
+                                               transform.localPosition,
+                                               _laserRotation);
+      Laser[] smartLasers = smartEnemyLaser.GetComponentsInChildren<Laser>();
+      for (int i = 0; i < smartLasers.Length; i++)
+      {
+        smartLasers[i].AssignEnemyLaser();
       }
     }
   }
