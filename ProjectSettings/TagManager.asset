@@ -9,6 +9,7 @@ TagManager:
   - Asteroid
   - Enemy_Rammer
   - Enemy_Smart
+  - Power_Up
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Water
   - UI
   - Post Processing
-  - 
-  - 
+  - Player
+  - Power_Up
   - 
   - 
   - 

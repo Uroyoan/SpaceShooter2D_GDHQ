@@ -121,6 +121,11 @@ public class Powerup : MonoBehaviour
         Destroy(this.gameObject);
         break;
 
+      case "Laser":
+        Destroy(other.gameObject);
+        Destroy(this.gameObject);
+        break;
+
       default:
         //Debug.Log(other.name);
         break;

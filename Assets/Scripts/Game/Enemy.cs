@@ -32,6 +32,9 @@ public class Enemy : MonoBehaviour
   private float _enemyProximity;
 
   private Quaternion _laserRotation;
+  [SerializeField]
+  private LayerMask _layerMask;
+  private bool _shotLaser = false;
 
   void Start()
   {
@@ -117,15 +120,15 @@ public class Enemy : MonoBehaviour
 
   void EnemyShooting()
   {
-    if (Time.time > _canFire)
+    if (_enemyIsDead == false)
     {
-      _canFire = Time.time + _FireRate;
-      if (_enemyIsDead == false)
+      switch (gameObject.tag)
       {
-        switch (gameObject.tag)
-        {
-          case "Enemy" or "Enemy_Rammer":
+        case "Enemy" or "Enemy_Rammer":
+          if (Time.time > _canFire)
+          {
             _FireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _FireRate;
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
                                                 transform.position,
                                                 Quaternion.identity);
@@ -134,19 +137,25 @@ public class Enemy : MonoBehaviour
             {
               Basiclasers[i].AssignEnemyLaser();
             }
-            break;
+          }
+          break;
 
-          case "Enemy_Smart":
-            _FireRate = Random.Range(1.5f, 3f);
-            SmartEnemyLaser();
-            break;
+        case "Enemy_Smart":
+          if (Time.time > _canFire)
+          {
+            if (_shotLaser == false)
+            {
+              CheckObject();
+            }
+          }
+          break;
 
-          default:
-            break;
-        }
-
+        default:
+          break;
       }
+
     }
+
   }
 
   private void OnTriggerEnter2D(Collider2D other)
@@ -230,36 +239,54 @@ public class Enemy : MonoBehaviour
     }
   }
 
-  public void SmartEnemyMovement()
+  private void CheckObject()
   {
-    //Future Movmenent Enemy
+    RaycastHit2D objectDetected = Physics2D.Raycast(transform.localPosition, -transform.up,
+                                                    10, _layerMask);
+    RaycastHit2D objectDetectedBack = Physics2D.Raycast(transform.localPosition, transform.up,
+                                                        10, _layerMask);
+    if (objectDetected)
+    {
+      if (objectDetected.collider.tag == "Power_Up" || objectDetected.collider.tag == "Player")
+      {
+        _laserRotation = Quaternion.identity;
+        SmartEnemyLaser();
+        StartCoroutine(LaserCooldown());
+      }
+    }
+
+    else if (objectDetectedBack)
+    {
+      if (objectDetectedBack.collider.name == "Player")
+      {
+        _laserRotation = Quaternion.identity;
+        _laserRotation.z += 180;
+        SmartEnemyLaser();
+        StartCoroutine(LaserCooldown());
+      }
+    }
   }
 
   public void SmartEnemyLaser()
   {
-    _enemyLocation = gameObject.transform.position;
-    _playerLocation = _player.gameObject.transform.position;
-    _enemyProximity = _enemyLocation.x - _playerLocation.x;
-    if (_enemyProximity < 3 && _enemyProximity > -3)
+    GameObject smartEnemyLaser = Instantiate(_enemyLaserPrefab,
+                                             transform.localPosition,
+                                             _laserRotation);
+    Laser[] smartLasers = smartEnemyLaser.GetComponentsInChildren<Laser>();
+    for (int i = 0; i < smartLasers.Length; i++)
     {
-      if (_enemyLocation.y > _playerLocation.y)
-      {
-        _laserRotation = Quaternion.identity;
-      }
-      if (_enemyLocation.y < _playerLocation.y)
-      {
-        _laserRotation = Quaternion.identity;
-        _laserRotation.z = 180;
-      }
-      GameObject smartEnemyLaser = Instantiate(_enemyLaserPrefab,
-                                               transform.localPosition,
-                                               _laserRotation);
-      Laser[] smartLasers = smartEnemyLaser.GetComponentsInChildren<Laser>();
-      for (int i = 0; i < smartLasers.Length; i++)
-      {
-        smartLasers[i].AssignEnemyLaser();
-      }
+      smartLasers[i].AssignEnemyLaser();
     }
+  }
+
+  IEnumerator LaserCooldown()
+  {
+    _shotLaser = true;
+    _FireRate = Random.Range(2f, 4f);
+    _canFire = Time.time + _FireRate;
+
+    yield return new WaitForSeconds(2f);
+    _shotLaser = false;
   }
 
 }

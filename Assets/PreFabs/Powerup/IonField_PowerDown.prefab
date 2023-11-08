@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 1170933434054865027}
   - component: {fileID: 1170933434054865026}
   - component: {fileID: 1170933434054865025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: IonField_PowerDown
-  m_TagString: Untagged
+  m_TagString: Power_Up
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

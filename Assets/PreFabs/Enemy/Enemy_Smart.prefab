@@ -267,6 +267,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyLaserPrefab: {fileID: 2410094495349466908, guid: c5b76a714442c1648b317aaf2007318a, type: 3}
   _enemyShieldVisualPrefab: {fileID: 6960626517991643801}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1001 &2966131925062026709
 PrefabInstance:
   m_ObjectHideFlags: 0
