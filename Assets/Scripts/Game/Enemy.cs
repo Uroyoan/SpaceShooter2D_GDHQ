@@ -295,7 +295,7 @@ public class Enemy : MonoBehaviour
     if (_detectedLaser == true)
     {
       _direction.x = 1;
-      MovementCooldown();
+      StartCoroutine(MovementCooldown());
     }
   }
 
