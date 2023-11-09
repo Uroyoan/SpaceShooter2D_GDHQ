@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
   private LayerMask _layerMask;
   private bool _shotLaser = false;
 
+  private bool _detectedLaser = false;
+
   void Start()
   {
     if (this.gameObject.tag != "Enemy_Rammer")
@@ -76,18 +78,19 @@ public class Enemy : MonoBehaviour
       switch (gameObject.tag)
       {
         case "Enemy":
-          _direction.x = Random.Range(-1, 2);
           _sporadicMovementTimer = Time.time + 3f;
+          _direction.x = Random.Range(-1, 2);
           break;
 
         case "Enemy_Rammer":
-          AggressiveEnemyMovement();
           _sporadicMovementTimer = Time.time + 1.25f;
+          AggressiveEnemyMovement();
           break;
+
         case "Enemy_Smart":
-          _direction.x = Random.Range(-1, 2);
-          _sporadicMovementTimer = Time.time + 1f;
+          SmartEnemyMovement();
           break;
+
         default:
           break;
       }
@@ -172,7 +175,7 @@ public class Enemy : MonoBehaviour
           OndeathAnimation();
           break;
 
-        case "Laser":
+        case "Laser_Player" or "Laser_Enemy":
           Destroy(other.gameObject);
 
           if (_player != null)
@@ -180,8 +183,6 @@ public class Enemy : MonoBehaviour
             _player.AddScore(Random.Range(1, 11));
           }
           OndeathAnimation();
-
-
           break;
 
         default:
@@ -191,7 +192,7 @@ public class Enemy : MonoBehaviour
     }
     else
     {
-      if (other.tag == "Laser")
+      if (other.tag == "Laser_Player" || other.tag == "Laser_Enemy")
       {
         Destroy(other.gameObject);
         DeactivateShield();
@@ -289,4 +290,24 @@ public class Enemy : MonoBehaviour
     _shotLaser = false;
   }
 
+  public void SmartEnemyMovement()
+  {
+    if (_detectedLaser == true)
+    {
+      _direction.x = 1;
+      MovementCooldown();
+    }
+  }
+
+  public void DetectedLaser()
+  {
+    _detectedLaser = true;
+  }
+
+  IEnumerator MovementCooldown()
+  {
+    yield return new WaitForSeconds(1f);
+    _detectedLaser = false;
+    _direction.x = 0;
+  }
 }

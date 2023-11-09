@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Laser
   - Asteroid
   - Enemy_Rammer
   - Enemy_Smart
   - Power_Up
+  - Radar
+  - Laser_Enemy
+  - Laser_Player
   layers:
   - Default
   - TransparentFX

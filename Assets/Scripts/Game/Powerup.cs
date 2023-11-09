@@ -121,7 +121,7 @@ public class Powerup : MonoBehaviour
         Destroy(this.gameObject);
         break;
 
-      case "Laser":
+      case "Laser_Enemy":
         Destroy(other.gameObject);
         Destroy(this.gameObject);
         break;

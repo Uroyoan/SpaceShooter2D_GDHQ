@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Laser : MonoBehaviour
 {
   [SerializeField]
   private float _laserSpeed = 14f;
   private bool _isEnemyLaser = false;
+
 
   void Update()
   {
@@ -85,4 +87,5 @@ public class Laser : MonoBehaviour
       }
     }
   }
+
 }
