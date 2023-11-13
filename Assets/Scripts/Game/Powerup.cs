@@ -113,6 +113,10 @@ public class Powerup : MonoBehaviour
               player.SystemsOffline();
               break;
 
+            case 7: // Missiles
+              player.MissilesActive();
+              break;
+
             default:
               Debug.Log("powerupID ERROR?");
               break;
@@ -121,7 +125,7 @@ public class Powerup : MonoBehaviour
         Destroy(this.gameObject);
         break;
 
-      case "Laser_Enemy":
+      case "Laser_Enemy" or "Missile_Enemy":
         Destroy(other.gameObject);
         Destroy(this.gameObject);
         break;

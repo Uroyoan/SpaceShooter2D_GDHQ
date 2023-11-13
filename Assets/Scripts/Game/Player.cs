@@ -66,6 +66,13 @@ public class Player : MonoBehaviour
   private float _slowSpeed = 2f;
   private bool _systemsActive = true;
 
+  [SerializeField]
+  private GameObject _missilePrefab;
+  private bool _missileActive = false;
+  private float _missileCooldown = 5f;
+  [SerializeField]
+  private AudioClip _missileClip;
+
   void Start()
   {
     transform.position = new Vector3(0, -3f, 0);
@@ -139,28 +146,41 @@ public class Player : MonoBehaviour
     if (_currentAmmo > 0 && _systemsActive == true)
     {
       _canFire = Time.time + _fireRate;
+
       if (_tripleShotActive == true)
       {
         Instantiate(_TripleShotPrefab,
                     transform.position,
                     Quaternion.identity);
+        _audioSource.clip = _LaserShotClip;
+        _audioSource.Play();
       }
       else if (_spreadShotActive == true)
       {
         Instantiate(_SpreadShotPrefab,
                     transform.position,
                     Quaternion.identity);
+        _audioSource.clip = _LaserShotClip;
+        _audioSource.Play();
+      }
+      else if (_missileActive == true)
+      {
+        Instantiate(_missilePrefab,
+                    transform.position,
+                    Quaternion.identity);
+        _audioSource.clip = _missileClip;
+        _audioSource.Play();
       }
       else
       {
         Instantiate(_laserPrefab,
                     transform.position + new Vector3(0, 1.2f, 0),
                     transform.rotation);
+        _audioSource.clip = _LaserShotClip;
+        _audioSource.Play();
       }
       _currentAmmo--;
       _uiManager.UpdateAmmo(_currentAmmo);
-      _audioSource.clip = _LaserShotClip;
-      _audioSource.Play();
     }
     else
     {
@@ -353,6 +373,18 @@ public class Player : MonoBehaviour
     yield return new WaitForSeconds(5f);
     _modifiedSpeed = _playerBaseSpeed;
     _systemsActive = true;
+  }
+
+  public void MissilesActive()
+  {
+    _missileActive = true;
+    StartCoroutine(MissilesDowntime());
+  }
+
+  IEnumerator MissilesDowntime()
+  {
+    yield return new WaitForSeconds(_missileCooldown);
+    _missileActive = false;
   }
 
 }

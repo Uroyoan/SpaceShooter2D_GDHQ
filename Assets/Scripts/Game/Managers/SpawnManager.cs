@@ -20,7 +20,6 @@ public class SpawnManager : MonoBehaviour
   private int _enemyTotalPercentage;
   private int _enemyRandomNumber;
   private int _enemyCompareNumber = 0;
-  [SerializeField]
   private int[] _enemyDropTable =
                 {
                   70, // Basic Enemy = 0 to 70
@@ -38,16 +37,16 @@ public class SpawnManager : MonoBehaviour
   private int _powerupTotalPercentage;
   private int _powerupRandomNumber;
   private int _powerupCompareNumber = 0;
-  [SerializeField]
   private int[] _powerupDropTable =
                 {
                   20, // Ammo = 1 to 20
                   20, // Speed = 21 to 40
                   15, // Triple Shot = 41 to 45
                   15, // Spread Shot = 56 to 70
-                  15, // Life = 71 to 85
-                  10, // Shield = 86 to 95
-                  5,  // Ion Field = 96 to 100
+                  10, // Life = 71 to 80
+                  10, // Shield = 81 to 90
+                  5,  // Ion Field = 91 to 95
+                  5,  // Missile = 96 to 100
                 };
 
   private void Start()

@@ -12,6 +12,8 @@ TagManager:
   - Radar
   - Laser_Enemy
   - Laser_Player
+  - Missile_Enemy
+  - Missile_Player
   layers:
   - Default
   - TransparentFX

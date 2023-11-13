@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
           OndeathAnimation();
           break;
 
-        case "Laser_Player" or "Laser_Enemy":
+        case "Laser_Player" or "Laser_Enemy" or "Missile_Player" or "Missile_Enemy":
           Destroy(other.gameObject);
 
           if (_player != null)
@@ -192,7 +192,7 @@ public class Enemy : MonoBehaviour
     }
     else
     {
-      if (other.tag == "Laser_Player" || other.tag == "Laser_Enemy")
+      if (other.tag == "Laser_Player" || other.tag == "Laser_Enemy" || other.tag == "Missile_Player" || other.tag == "Missile_Enemy")
       {
         Destroy(other.gameObject);
         DeactivateShield();
