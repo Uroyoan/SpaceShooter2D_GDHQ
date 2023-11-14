@@ -36,8 +36,8 @@ public class Enemy : MonoBehaviour
   [SerializeField]
   private LayerMask _layerMask;
   private bool _shotLaser = false;
-
   private bool _detectedLaser = false;
+
   [SerializeField]
   private GameObject _enemyMissile;
   [SerializeField]

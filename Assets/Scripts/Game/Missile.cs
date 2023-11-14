@@ -115,7 +115,7 @@ public class Missile : MonoBehaviour
   {
     _collider = GetComponent<Collider2D>();
     _collider.enabled = false;
-    yield return new WaitForSeconds(1f);
+    yield return new WaitForSeconds(0.2f);
     _collider.enabled = true;
   }
 }
