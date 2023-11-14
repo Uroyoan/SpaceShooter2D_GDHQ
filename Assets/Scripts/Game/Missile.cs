@@ -8,13 +8,15 @@ public class Missile : MonoBehaviour
   private Transform _enemyShip;
   private Transform _playerShip;
 
-  private float _speed = 8f;
-
   Vector3 rightTriangle;
   private float _xValueofShip;
   private float _yValueofShip;
   private float _radians;
   private float _angle;
+
+  private float _speed = 12f;
+
+  private Collider2D _collider;
 
   private void Start()
   {
@@ -23,18 +25,22 @@ public class Missile : MonoBehaviour
     {
       Debug.LogError("Missile::_enemyShip IS NULL");
     }
+
     _playerShip = GameObject.Find("Player").transform;
     if (_playerShip == null)
     {
       Debug.LogError("Missile::_playerShip IS NULL");
     }
+
+    StartCoroutine(CollisionOFF());
+
   }
 
   private void Update()
   {
     CalculateMovement();
   }
-
+  
   private void FindAngle(Vector3 ship)
   {
     rightTriangle = ship - transform.position;
@@ -76,6 +82,7 @@ public class Missile : MonoBehaviour
         break;
 
       default:
+        Debug.Log("Missile :: CalculateMovement Error, Tag Found: " + this.tag);
         break;
     }
 
@@ -88,5 +95,27 @@ public class Missile : MonoBehaviour
     {
       Destroy(this.gameObject);
     }
+  }
+
+  public void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.tag == "Player")
+    {
+      Player player = other.GetComponent<Player>();
+
+      if (player != null)
+      {
+        player.Damage();
+        Destroy(this.gameObject);
+      }
+    }
+  }
+
+  IEnumerator CollisionOFF()
+  {
+    _collider = GetComponent<Collider2D>();
+    _collider.enabled = false;
+    yield return new WaitForSeconds(1f);
+    _collider.enabled = true;
   }
 }

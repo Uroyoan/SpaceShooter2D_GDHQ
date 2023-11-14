@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
   private GameObject _enemyContainer;
   [SerializeField]
   private GameObject[] _enemyPrefab;
+  private Vector3 _posToSpawn;
   private int _enemiesInContainer;
   private int _enemiesToSpawn = 0;
   private int _enemiesPerWave = 5;
@@ -22,9 +23,10 @@ public class SpawnManager : MonoBehaviour
   private int _enemyCompareNumber = 0;
   private int[] _enemyDropTable =
                 {
-                  70, // Basic Enemy = 0 to 70
-                  20,  // Ramming Enemy = 71 to 90
-                  10,  // Smart Enemy = 91 to 100
+                  60, // Basic Enemy = 0 to 60
+                  20, // Ramming Enemy = 61 to 80
+                  10, // Smart Enemy = 81 to 90
+                  10  // Missile Enemy = 91 to 100
                 };
 
   [SerializeField]
@@ -100,9 +102,19 @@ public class SpawnManager : MonoBehaviour
     while (_stopSpawning == false && _enemiesToSpawn > 0)
     {
       EnemySelector();
-
-      Vector3 posToSpawn = new Vector3(Random.Range(-10f, 10f), 7f, 0f);
-      GameObject newEnemy = Instantiate(_enemyPrefab[_enemySelected], posToSpawn, Quaternion.identity);
+      _posToSpawn = new Vector3(Random.Range(-10f, 10f), 7f, 0f);
+      if (_enemySelected == 3)
+      {
+        if (Random.Range(0, 2) == 0)
+        {
+          _posToSpawn.x = 8f;
+        }
+        else
+        {
+          _posToSpawn.x = -8f;
+        }
+      }
+      GameObject newEnemy = Instantiate(_enemyPrefab[_enemySelected], _posToSpawn, Quaternion.identity);
       newEnemy.transform.parent = _enemyContainer.transform;
       _enemiesToSpawn--;
 

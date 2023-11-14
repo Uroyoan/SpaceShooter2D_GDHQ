@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -37,6 +38,19 @@ public class Enemy : MonoBehaviour
   private bool _shotLaser = false;
 
   private bool _detectedLaser = false;
+  [SerializeField]
+  private GameObject _enemyMissile;
+  [SerializeField]
+  private AudioClip _missileLockOnClip;
+  private Quaternion _missileRotation;
+
+  private Vector3 _rightTriangle;
+  private float _xValueofShip;
+  private float _yValueofShip;
+  private float _radians;
+  private float _angle;
+  [SerializeField]
+  private Transform _missileLocation;
 
   void Start()
   {
@@ -72,6 +86,9 @@ public class Enemy : MonoBehaviour
 
   void EnemyMovement()
   {
+    //Movement
+    transform.Translate(_enemySpeed * Time.deltaTime * _direction);
+   
     //Movement Direction
     if (Time.time > _sporadicMovementTimer)
     {
@@ -79,7 +96,7 @@ public class Enemy : MonoBehaviour
       {
         case "Enemy":
           _sporadicMovementTimer = Time.time + 3f;
-          _direction.x = Random.Range(-1, 2);
+          _direction.x = UnityEngine.Random.Range(-1, 2);
           break;
 
         case "Enemy_Rammer":
@@ -91,16 +108,21 @@ public class Enemy : MonoBehaviour
           SmartEnemyMovement();
           break;
 
+        case "Enemy_HeatSeeker":
+          if (transform.position.y <= 4)
+          {
+            _enemySpeed = 0;
+            LookAtPlayer();
+          }
+          break;
+
         default:
           break;
       }
     }
 
-    //Movement
-    transform.Translate(_enemySpeed * Time.deltaTime * _direction);
-
     // y boundaries
-    float newXPosition = Random.Range(-11, 11);
+    float newXPosition = UnityEngine.Random.Range(-11, 11);
     if (transform.position.y > 7.5f)
     {
       transform.position = new Vector3(newXPosition, -7.5f, 0);
@@ -130,7 +152,7 @@ public class Enemy : MonoBehaviour
         case "Enemy" or "Enemy_Rammer":
           if (Time.time > _canFire)
           {
-            _FireRate = Random.Range(3f, 7f);
+            _FireRate = UnityEngine.Random.Range(3f, 7f);
             _canFire = Time.time + _FireRate;
             GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
                                                 transform.position,
@@ -150,6 +172,13 @@ public class Enemy : MonoBehaviour
             {
               CheckObject();
             }
+          }
+          break;
+
+        case "Enemy_HeatSeeker":
+          if (Time.time > _canFire)
+          {
+            StartCoroutine(MissileCooldown());
           }
           break;
 
@@ -180,7 +209,7 @@ public class Enemy : MonoBehaviour
 
           if (_player != null)
           {
-            _player.AddScore(Random.Range(1, 11));
+            _player.AddScore(UnityEngine.Random.Range(1, 11));
           }
           OndeathAnimation();
           break;
@@ -190,9 +219,11 @@ public class Enemy : MonoBehaviour
           break;
       }
     }
+
     else
     {
-      if (other.tag == "Laser_Player" || other.tag == "Laser_Enemy" || other.tag == "Missile_Player" || other.tag == "Missile_Enemy")
+      if (other.tag == "Laser_Player" || other.tag == "Laser_Enemy"||
+          other.tag == "Missile_Player" || other.tag == "Missile_Enemy")
       {
         Destroy(other.gameObject);
         DeactivateShield();
@@ -283,7 +314,7 @@ public class Enemy : MonoBehaviour
   IEnumerator LaserCooldown()
   {
     _shotLaser = true;
-    _FireRate = Random.Range(2f, 4f);
+    _FireRate = UnityEngine.Random.Range(2f, 4f);
     _canFire = Time.time + _FireRate;
 
     yield return new WaitForSeconds(2f);
@@ -309,5 +340,41 @@ public class Enemy : MonoBehaviour
     yield return new WaitForSeconds(1f);
     _detectedLaser = false;
     _direction.x = 0;
+  }
+
+  public void EnemyMissile()
+  {
+    _missileRotation = transform.rotation;
+    _missileRotation.z += 180;
+    GameObject EnemyMissiles = Instantiate(_enemyMissile,
+                                           _missileLocation.position,
+                                           _missileRotation);
+  }
+
+  IEnumerator MissileCooldown()
+  {
+    _FireRate = 6f;
+    _canFire = Time.time + _FireRate;
+    _audioSource.clip = _missileLockOnClip;
+    _audioSource.Play();
+    yield return new WaitForSeconds(5f);
+    if (_enemyIsDead == false)
+    {
+      EnemyMissile();
+    }
+  }
+
+  private void LookAtPlayer()
+  {
+    _enemyLocation = gameObject.transform.position;
+    _playerLocation = _player.gameObject.transform.position;
+    _rightTriangle = _playerLocation - _enemyLocation;
+
+    _xValueofShip = _rightTriangle.x;
+    _yValueofShip = _rightTriangle.y;
+    _radians = (float)Math.Atan2(_yValueofShip, _xValueofShip);
+    _angle = _radians * (180 / 3.1415f);
+
+    gameObject.transform.rotation = Quaternion.Euler(0, 0, (_angle += 90));
   }
 }
