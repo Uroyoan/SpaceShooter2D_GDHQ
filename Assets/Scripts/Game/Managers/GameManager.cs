@@ -10,19 +10,29 @@ public class GameManager : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
-    {
-      SceneManager.LoadScene(1); //Current Game Scene
-    }
+    ResetGame();
+    ExitGame();
+  }
 
+  public void GameOver()
+  {
+    _isGameOver = true;
+  }
+
+  public void ExitGame()
+  {
     if (Input.GetKeyDown(KeyCode.Escape))
     {
       Application.Quit();
     }
   }
-  public void GameOver()
+
+  public void ResetGame()
   {
-    _isGameOver = true;
+    if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+    {
+      SceneManager.LoadScene(1); //Current Game Scene
+    }
   }
 
 }
