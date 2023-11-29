@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
   private float _fireRate = 0.2f,
                 _canFire = -1f;
 
-  private int _currentAmmo = 15;
-
   [SerializeField]
   private GameObject _TripleShotPrefab;
   private bool _tripleShotActive = false;
@@ -51,6 +49,9 @@ public class Player : MonoBehaviour
   private AudioClip _LaserShotClip;
   [SerializeField]
   private AudioClip _noAmmoClip;
+
+  private int _currentAmmo = 5;
+  private int _currentAmmoClip = 1;
 
   private Transform _camera;
   private float _timePassed = 0f;
@@ -113,8 +114,12 @@ public class Player : MonoBehaviour
     _playerMovementAnim = GetComponent<Animator>();
     if (_playerMovementAnim == null)
     {
-      Debug.LogError("_deathAnim is NULL");
+      Debug.LogError("Player :: _playerMovementAnim is NULL");
     }
+
+    _uiManager.UpdateAmmo(_currentAmmo);
+    _uiManager.UpdateClip(_currentAmmoClip);
+
   }
 
   void Update()
@@ -203,8 +208,15 @@ public class Player : MonoBehaviour
         _audioSource.clip = _LaserShotClip;
         _audioSource.Play();
       }
+
       _currentAmmo--;
+      if (_currentAmmo == 0 && _currentAmmoClip >= 1)
+      {
+        _currentAmmoClip--;
+        _currentAmmo = 10;
+      }
       _uiManager.UpdateAmmo(_currentAmmo);
+      _uiManager.UpdateClip(_currentAmmoClip);
     }
     else
     {
@@ -215,8 +227,17 @@ public class Player : MonoBehaviour
 
   public void addAmmo ()
   {
-    _currentAmmo += 15;
-    _uiManager.UpdateAmmo(_currentAmmo);
+    if (_currentAmmoClip <= 3)
+    {
+      _currentAmmoClip++;
+      _uiManager.UpdateClip(_currentAmmoClip);
+    }
+
+    else
+    {
+      _currentAmmo = 10;
+      _uiManager.UpdateAmmo(_currentAmmo);
+    }
   }
 
   public void TripleShotActive ()

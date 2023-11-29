@@ -32,6 +32,8 @@ public class UiManager : MonoBehaviour
 
   [SerializeField]
   private TMP_Text _ammoText;
+  [SerializeField]
+  private Image _ammoclipFill;
 
   [SerializeField]
   private TMP_Text _wavesText;
@@ -93,11 +95,17 @@ public class UiManager : MonoBehaviour
 
   public void UpdateAmmo(float ammoAmount)
   {
-    _ammoText.text = "Ammo: " + ammoAmount;
+    _ammoText.text = "" + ammoAmount;
+  }
+
+  public void UpdateClip(float clipAmmount)
+  {
+    _ammoclipFill.fillAmount = clipAmmount / 4;
   }
 
   public void UpdateWaves(int currentWave)
   {
     _wavesText.text = "Wave: " + currentWave;
   }
+
 }
