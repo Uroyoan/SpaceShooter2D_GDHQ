@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
   [SerializeField]
   private AudioClip _missileClip;
 
+  private Animator _playerMovementAnim;
+
   void Start()
   {
     transform.position = new Vector3(0, -3f, 0);
@@ -107,6 +109,12 @@ public class Player : MonoBehaviour
     {
       Debug.LogError("Camera is null");
     }
+
+    _playerMovementAnim = GetComponent<Animator>();
+    if (_playerMovementAnim == null)
+    {
+      Debug.LogError("_deathAnim is NULL");
+    }
   }
 
   void Update()
@@ -127,6 +135,22 @@ public class Player : MonoBehaviour
     float verticalInput = Input.GetAxis("Vertical");
     Vector3 direction = new(horizontalInput, verticalInput, 0);
     transform.Translate(_modifiedSpeed * Time.deltaTime * direction);
+
+    if (direction.x >= 0.2)
+    {
+      _playerMovementAnim.SetBool("PlayerLeft", false);
+      _playerMovementAnim.SetBool("PlayerRight", true);
+    }
+    else if (direction.x <= -0.2)
+    {
+      _playerMovementAnim.SetBool("PlayerLeft", true);
+      _playerMovementAnim.SetBool("PlayerRight", false);
+    }
+    else
+    {
+      _playerMovementAnim.SetBool("PlayerLeft", false);
+      _playerMovementAnim.SetBool("PlayerRight", false);
+    }
 
     //Boundries
     transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.5f, 4.5f), 0);
