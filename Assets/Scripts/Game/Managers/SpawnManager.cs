@@ -13,7 +13,12 @@ public class SpawnManager : MonoBehaviour
   private GameObject _enemyContainer;
   [SerializeField]
   private GameObject[] _enemyPrefab;
+
+  [SerializeField]
+  private GameObject _bossContainer;
   private Vector3 _posToSpawn;
+  private Quaternion _bossRotation;
+
   private int _enemiesInContainer;
   private int _enemiesToSpawn = 0;
   private int _enemiesPerWave = 5;
@@ -31,6 +36,7 @@ public class SpawnManager : MonoBehaviour
 
   [SerializeField]
   private GameObject _asteroidPrefab;
+  [SerializeField]
   private int _currentWave = 0;
 
   [SerializeField]
@@ -90,9 +96,18 @@ public class SpawnManager : MonoBehaviour
     _stopSpawning = false;
     _enemiesToSpawn = _currentWave * _enemiesPerWave;
 
-    StartCoroutine(SpawnEnemyRoutine());
-    StartCoroutine(SpawnPowerupRoutine());
-
+    if (_currentWave <= 3)
+    {
+      StartCoroutine(SpawnEnemyRoutine());
+      StartCoroutine(SpawnPowerupRoutine());
+    }
+    else if (_currentWave == 4) // Boss Spawn
+    {
+      _posToSpawn = new Vector3(-10f, 24f, 0f);
+      _bossRotation.z = 180;
+  GameObject newEnemy = Instantiate(_bossContainer, _posToSpawn, _bossRotation);
+      newEnemy.transform.parent = _enemyContainer.transform;
+    }
   }
 
   IEnumerator SpawnEnemyRoutine()

@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
   private Player _player;
 
-  Animator _deathAnim;
+  private Animator _deathAnim;
 
   private AudioSource _audioSource;
 
@@ -215,7 +215,7 @@ public class Enemy : MonoBehaviour
           break;
 
         default:
-          Debug.Log("Hit by: " + other.tag);
+          //Debug.Log("Hit by: " + other.tag);
           break;
       }
     }
@@ -256,7 +256,10 @@ public class Enemy : MonoBehaviour
   public void AggressiveEnemyMovement()
   {
     _enemyLocation = gameObject.transform.position;
-    _playerLocation = _player.gameObject.transform.position;
+    if (_player != null)
+    {
+      _playerLocation = _player.gameObject.transform.position;
+    }
     _enemyProximity = _enemyLocation.x - _playerLocation.x;
     if (_isShieldActive == true)
     {
@@ -344,7 +347,7 @@ public class Enemy : MonoBehaviour
 
   public void EnemyMissile()
   {
-    _missileRotation = transform.rotation;
+    _missileRotation = transform.localRotation;
     _missileRotation.z += 180;
     GameObject EnemyMissiles = Instantiate(_enemyMissile,
                                            _missileLocation.position,

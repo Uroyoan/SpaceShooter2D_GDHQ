@@ -15,6 +15,7 @@ TagManager:
   - Missile_Enemy
   - Missile_Player
   - Enemy_HeatSeeker
+  - Enemy_Boss
   layers:
   - Default
   - TransparentFX

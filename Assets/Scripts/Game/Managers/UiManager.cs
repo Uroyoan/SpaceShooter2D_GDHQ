@@ -21,6 +21,8 @@ public class UiManager : MonoBehaviour
   private TMP_Text _gameOverText;
   [SerializeField]
   private TMP_Text _restartText;
+  [SerializeField]
+  private TMP_Text _gameWonText;
 
   private GameManager _gameManager;
 
@@ -106,6 +108,24 @@ public class UiManager : MonoBehaviour
   public void UpdateWaves(int currentWave)
   {
     _wavesText.text = "Wave: " + currentWave;
+  }
+
+  public void GameWonSequence()
+  {
+    _gameManager.GameOver();
+    StartCoroutine(GameWonFlickerSequence());
+  }
+
+  IEnumerator GameWonFlickerSequence()
+  {
+    yield return new WaitForSeconds(2f);
+    while (true)
+    {
+      _gameWonText.gameObject.SetActive(true);
+      yield return new WaitForSeconds(0.5f);
+      _gameWonText.gameObject.SetActive(false);
+      yield return new WaitForSeconds(0.5f);
+    }
   }
 
 }

@@ -130,8 +130,12 @@ public class Powerup : MonoBehaviour
         Destroy(this.gameObject);
         break;
 
+      case "Enemy_Boss":
+        Destroy(this.gameObject);
+        break;
+
       default:
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
         break;
     }
   }

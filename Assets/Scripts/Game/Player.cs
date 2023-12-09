@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
   private AudioClip _noAmmoClip;
 
   private int _currentAmmo = 5;
+  [SerializeField]
   private int _currentAmmoClip = 1;
 
   private Transform _camera;
@@ -133,7 +134,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  void PlayerMovement ()
+  void PlayerMovement()
   {
     //Movement
     float horizontalInput = Input.GetAxis("Horizontal");
@@ -170,7 +171,7 @@ public class Player : MonoBehaviour
 
   }
 
-  void PlayerShooting ()
+  void PlayerShooting()
   {
     if (_currentAmmo > 0 && _systemsActive == true)
     {
@@ -225,7 +226,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void addAmmo ()
+  public void addAmmo()
   {
     if (_currentAmmoClip <= 3)
     {
@@ -240,19 +241,19 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void TripleShotActive ()
+  public void TripleShotActive()
   {
     _tripleShotActive = true;
     StartCoroutine(TripleShotDowntime());
   }
 
-  IEnumerator TripleShotDowntime ()
+  IEnumerator TripleShotDowntime()
   {
     yield return new WaitForSeconds(_tripleShotCooldown);
     _tripleShotActive = false;
   }
 
-  public void SpeedBoostActive ()
+  public void SpeedBoostActive()
   {
     if (Input.GetKey(KeyCode.LeftShift) && _fuelamount > 0 && _systemsActive == true)
     {
@@ -274,13 +275,13 @@ public class Player : MonoBehaviour
     _uiManager.UpdateFuel(_fuelamount * 0.01f);
   }
 
-  public void AddFuel ()
+  public void AddFuel()
   {
     _fuelamount = 100;
     _uiManager.UpdateFuel(_fuelamount / 100);
   }
 
-  public void Damage ()
+  public void Damage()
   {
     if (_shieldActive == true)
     {
@@ -322,7 +323,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  public void ShieldActive ()
+  public void ShieldActive()
   {
     _shieldActive = true;
     _shieldHealth = 3;
@@ -330,13 +331,13 @@ public class Player : MonoBehaviour
     _shieldVisualPrefab.SetActive(true);
   }
 
-  public void AddScore (int points)
+  public void AddScore(int points)
   {
     _score += points;
     _uiManager.UpdateScore(_score);
   }
 
-  public void AddLives ()
+  public void AddLives()
   {
     if (_lives < 3)
     {
@@ -346,7 +347,7 @@ public class Player : MonoBehaviour
     updateEngines();
   }
 
-  private void updateEngines ()
+  private void updateEngines()
   {
     switch (_lives)
     {
@@ -375,7 +376,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  public IEnumerator CameraShake ()
+  public IEnumerator CameraShake()
   {
 
     Vector3 _startPos = _camera.transform.localPosition;
@@ -394,26 +395,26 @@ public class Player : MonoBehaviour
     _timePassed = 0;
   }
 
-  public void SpreadShotActive ()
+  public void SpreadShotActive()
   {
     _spreadShotActive = true;
     StartCoroutine(SpreadShotDowntime());
   }
 
-  IEnumerator SpreadShotDowntime ()
+  IEnumerator SpreadShotDowntime()
   {
     yield return new WaitForSeconds(_spreadShotCooldown);
     _spreadShotActive = false;
   }
 
-  public void SystemsOffline ()
+  public void SystemsOffline()
   {
     _systemsActive = false;
     _modifiedSpeed = _playerBaseSpeed / _slowSpeed;
     StartCoroutine(SystemDowntime());
   }
 
-  IEnumerator SystemDowntime ()
+  IEnumerator SystemDowntime()
   {
     yield return new WaitForSeconds(5f);
     _modifiedSpeed = _playerBaseSpeed;
@@ -432,4 +433,15 @@ public class Player : MonoBehaviour
     _missileActive = false;
   }
 
+  public void CollisionWithBoss()
+  {
+    _shieldHealth = 0;
+    _shieldActive = false;
+    _shieldVisualPrefab.SetActive(false);
+    _lives = 0;
+    _uiManager.UpdateLives(_lives);
+
+    _spawnManager.OnPlayerDeath();
+    Destroy(gameObject);
+  }
 }
