@@ -68,6 +68,7 @@ public class DreadNaughtBoss : MonoBehaviour
     }
 
     _spriteRenderer = GetComponent<SpriteRenderer>();
+    _collider = GetComponent<Collider2D>();
 
     //Starts Left Side
     _position = new Vector3(-10, 24, 0);
@@ -204,7 +205,6 @@ public class DreadNaughtBoss : MonoBehaviour
 
   IEnumerator CollisionOFF()
   {
-    _collider = GetComponent<Collider2D>();
     _collider.enabled = false;
     yield return new WaitForSeconds(1f);
     _collider.enabled = true;
@@ -223,7 +223,7 @@ public class DreadNaughtBoss : MonoBehaviour
 
   private void BossDeath()
   {
-    Destroy(GetComponent<Collider2D>());
+    _collider.enabled = false;
     _isBossDead = true;
     _bossCurrentSpeed = 0;
     _deathAnim.SetTrigger("OnEnemyDeath");

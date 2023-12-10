@@ -104,7 +104,7 @@ public class SpawnManager : MonoBehaviour
     {
       _posToSpawn = new Vector3(-10f, 24f, 0f);
       _bossRotation.z = 180;
-  GameObject newEnemy = Instantiate(_bossContainer, _posToSpawn, _bossRotation);
+      GameObject newEnemy = Instantiate(_bossContainer, _posToSpawn, _bossRotation);
       newEnemy.transform.parent = _enemyContainer.transform;
     }
   }
