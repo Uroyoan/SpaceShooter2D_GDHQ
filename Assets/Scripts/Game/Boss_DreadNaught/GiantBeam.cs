@@ -17,14 +17,8 @@ public class GiantBeam : MonoBehaviour
   {
     if (other.tag == "Player")
     {
-      Debug.Log("inside: " + other.tag);
       _playerScript.CollisionWithBoss();
     }
-    else
-    {
-      Debug.Log("Else: " + other.tag);
-    }
-    Debug.Log("none: " + other.tag);
   }
 
 }

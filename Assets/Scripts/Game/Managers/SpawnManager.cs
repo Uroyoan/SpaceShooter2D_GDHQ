@@ -46,8 +46,8 @@ public class SpawnManager : MonoBehaviour
   private int _powerupCompareNumber = 0;
   private int[] _powerupDropTable =
                 {
-                  20, // Ammo = 1 to 20
-                  20, // Speed = 21 to 40
+                  25, // Ammo = 1 to 25
+                  15, // Speed = 26 to 40
                   15, // Triple Shot = 41 to 45
                   15, // Spread Shot = 56 to 70
                   10, // Life = 71 to 80
