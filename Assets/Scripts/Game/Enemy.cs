@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
   private Animator _deathAnim;
 
   private AudioSource _audioSource;
+  [SerializeField]
+  private AudioClip _audioDestroyed;
+  [SerializeField]
+  private AudioClip _missileLockOnClip;
 
   [SerializeField]
   private GameObject _enemyLaserPrefab;
@@ -37,8 +41,6 @@ public class Enemy : MonoBehaviour
 
   [SerializeField]
   private GameObject _enemyMissile;
-  [SerializeField]
-  private AudioClip _missileLockOnClip;
   private Quaternion _missileRotation;
 
   private Vector3 _rightTriangle;
@@ -237,8 +239,9 @@ public class Enemy : MonoBehaviour
   {
     _enemyIsDead = true;
     _enemySpeed = 0;
+    _audioSource.Stop();
     _deathAnim.SetTrigger("OnEnemyDeath");
-
+    AudioSource.PlayClipAtPoint(_audioDestroyed, transform.position);
     _audioSource.Play();
     Destroy(GetComponent<Collider2D>());
     Destroy(gameObject, 2.70f);
@@ -358,7 +361,7 @@ public class Enemy : MonoBehaviour
     _audioSource.clip = _missileLockOnClip;
     _audioSource.Play();
     yield return new WaitForSeconds(5f);
-    if (_enemyIsDead == false)
+    if (_enemyIsDead =! true)
     {
       EnemyMissile();
     }

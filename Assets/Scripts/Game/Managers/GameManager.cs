@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
   public void ResetGame()
   {
-    if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
+    if (Input.GetKeyDown(KeyCode.F) && _isGameOver == true)
     {
       SceneManager.LoadScene(1); //Current Game Scene
     }

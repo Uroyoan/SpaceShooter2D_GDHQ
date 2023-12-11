@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2496,7 +2496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press "R" Key To Restart Game
+  m_text: Press "F" To pay respect
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2694,13 +2694,14 @@ MonoBehaviour:
   _TripleShotPrefab: {fileID: 8426672325071460311, guid: 528dccd4eeeea4b43aa41c8aa1c236d8, type: 3}
   _thrusters: {fileID: 1427140053}
   _fuelamount: 100
+  _fuelBurnSpeed: 25
   _shieldVisualPrefab: {fileID: 368196490}
   _engineLeft: {fileID: 1093046938}
   _engineRight: {fileID: 1451229281}
   _audioSource: {fileID: 0}
   _LaserShotClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _noAmmoClip: {fileID: 8300000, guid: 431aaef444361a241b0569b26408849c, type: 3}
-  _currentAmmoClip: 1
+  _ReloadClip: {fileID: 8300000, guid: 0bbb3404da807f348b3f04e48a0b9bd1, type: 3}
   _SpreadShotPrefab: {fileID: 1160558872501808816, guid: 8f79f6b1ccb708d4791a223ded3f1b39, type: 3}
   _missilePrefab: {fileID: 2222678271644534934, guid: 9d13cf6e2592702448b4d926c060e8fc, type: 3}
   _missileClip: {fileID: 8300000, guid: 2057eceecef82494f845b278dfad8230, type: 3}
@@ -2764,9 +2765,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093558770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 389866232}
   - {fileID: 92113712}

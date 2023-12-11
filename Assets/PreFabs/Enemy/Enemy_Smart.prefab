@@ -266,13 +266,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf867c3261f35e549b007099f955ca6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioDestroyed: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _missileLockOnClip: {fileID: 8300000, guid: d5eab6938204ec242b5ad5145d2a517f, type: 3}
   _enemyLaserPrefab: {fileID: 2410094495349466908, guid: c5b76a714442c1648b317aaf2007318a, type: 3}
   _enemyShieldVisualPrefab: {fileID: 6960626517991643801}
   _layerMask:
     serializedVersion: 2
     m_Bits: 384
   _enemyMissile: {fileID: 8499786248873331525, guid: 5a0fcdcf988919344b0b519ef4b62fd0, type: 3}
-  _missileLockOnClip: {fileID: 8300000, guid: d5eab6938204ec242b5ad5145d2a517f, type: 3}
+  _missileLocation: {fileID: 0}
 --- !u!1 &5568817297051086850
 GameObject:
   m_ObjectHideFlags: 0

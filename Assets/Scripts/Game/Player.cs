@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
                 _speedBoostMultiplier = 1.5f;
 
   [SerializeField]
-  private float _fuelamount = 100;
-  private float _fuelBurnSpeed = 25;
+  private float _fuelamount = 100,
+                _fuelBurnSpeed = 25;
 
   [SerializeField]
   private GameObject _shieldVisualPrefab;
@@ -36,7 +36,8 @@ public class Player : MonoBehaviour
   private UiManager _uiManager;
 
   [SerializeField]
-  private GameObject _engineLeft, _engineRight;
+  private GameObject _engineLeft,
+                     _engineRight;
 
   [SerializeField]
   private AudioSource _audioSource;
@@ -44,16 +45,17 @@ public class Player : MonoBehaviour
   private AudioClip _LaserShotClip;
   [SerializeField]
   private AudioClip _noAmmoClip;
-
-  private int _currentAmmo = 5;
   [SerializeField]
-  private int _currentAmmoClip = 1;
+  private AudioClip _ReloadClip;
+
+  private int _currentAmmo = 5,
+              _currentAmmoClip = 1;
 
   private Transform _camera;
-  private float _timePassed = 0f;
-  private float _xOffset;
-  private float _yOffset;
-  private float _shakeDuration = 1f;
+  private float _timePassed = 0f,
+                _xOffset,
+                _yOffset,
+                _shakeDuration = 1f;
 
   [SerializeField]
   private GameObject _SpreadShotPrefab;
@@ -154,21 +156,21 @@ public class Player : MonoBehaviour
     }
 
     //Boundries
-    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.5f, 4.5f), 0);
-    if (transform.position.x > 11.5f)
+    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.7f, 4.7f), 0);
+    if (transform.position.x > 11f)
     {
-      transform.position = new Vector3(-11.5f, transform.position.y, 0);
+      transform.position = new Vector3(-11f, transform.position.y, 0);
     }
-    else if (transform.position.x < -11.5f)
+    else if (transform.position.x < -11f)
     {
-      transform.position = new Vector3(11.5f, transform.position.y, 0);
+      transform.position = new Vector3(11f, transform.position.y, 0);
     }
 
   }
 
   void PlayerShooting()
   {
-    if (_currentAmmo > 0 && _systemsActive == true)
+    if (_systemsActive == true && _currentAmmo >= 1)
     {
       _canFire = Time.time + _fireRate;
 
@@ -199,21 +201,27 @@ public class Player : MonoBehaviour
       else
       {
         Instantiate(_laserPrefab,
-                    transform.position + new Vector3(0, 1.2f, 0),
+                    transform.position + new Vector3(0, 1f, 0),
                     transform.rotation);
         _audioSource.clip = _LaserShotClip;
         _audioSource.Play();
       }
-
+        
       _currentAmmo--;
-      if (_currentAmmo == 0 && _currentAmmoClip >= 1)
-      {
-        _currentAmmoClip--;
-        _currentAmmo = 10;
-      }
       _uiManager.UpdateAmmo(_currentAmmo);
       _uiManager.UpdateClip(_currentAmmoClip);
     }
+
+    else if (_currentAmmo <= 0 && _currentAmmoClip >= 1 && _systemsActive == true)
+    {
+      _currentAmmoClip--;
+      _uiManager.UpdateClip(_currentAmmoClip);
+      _currentAmmo = 10;
+      _uiManager.UpdateAmmo(_currentAmmo);
+      _audioSource.clip = _ReloadClip;
+      _audioSource.Play();
+    }
+
     else
     {
       _audioSource.clip = _noAmmoClip;
@@ -234,6 +242,8 @@ public class Player : MonoBehaviour
       _currentAmmo = 10;
       _uiManager.UpdateAmmo(_currentAmmo);
     }
+    _audioSource.clip = _ReloadClip;
+    _audioSource.Play();
   }
 
   public void TripleShotActive()

@@ -56,6 +56,8 @@ public class SpawnManager : MonoBehaviour
                   5,  // Missile = 96 to 100
                 };
 
+  private Player _playerScript;
+
   private void Start()
   {
     //check Powerup Percentage
@@ -79,12 +81,16 @@ public class SpawnManager : MonoBehaviour
       Debug.LogError("SpawnManager ::" +
         "             Percentage of Enemies (" + _enemyTotalPercentage + ") does not equal 100%");
     }
-
-    //check is UI manager is Null
     _uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
     if (_uiManager == null)
     {
       Debug.LogError("SpawnManager :: UI Manager is Null");
+    }
+
+    _playerScript = GameObject.Find("Player").GetComponent<Player>();
+    if (_playerScript == null)
+    {
+      Debug.LogError("SpawnManager :: _playerScript is NULL");
     }
   }
 
@@ -95,12 +101,12 @@ public class SpawnManager : MonoBehaviour
     _stopSpawning = false;
     _enemiesToSpawn = _currentWave * _enemiesPerWave;
 
-    if (_currentWave <= 3)
+    if (_currentWave <= 2)
     {
       StartCoroutine(SpawnEnemyRoutine());
       StartCoroutine(SpawnPowerupRoutine());
     }
-    else if (_currentWave == 4) // Boss Spawn
+    else if (_currentWave == 3) // Boss Spawn
     {
       _posToSpawn = new Vector3(-10f, 24f, 0f);
       _bossRotation.z = 180;
@@ -148,6 +154,7 @@ public class SpawnManager : MonoBehaviour
       Vector3 _asteroidPos = new Vector3(0, 7, 0);
       GameObject newWave = Instantiate(_asteroidPrefab, _asteroidPos, Quaternion.identity);
       newWave.transform.parent = _enemyContainer.transform;
+      GiveAmmoPlayer();
     }
   }
 
@@ -202,5 +209,10 @@ public class SpawnManager : MonoBehaviour
         return;
       }
     }
+  }
+
+  private void GiveAmmoPlayer()
+  {
+    _playerScript.addAmmo();
   }
 }
