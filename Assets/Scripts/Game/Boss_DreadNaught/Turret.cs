@@ -4,41 +4,34 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-  private Collider2D _collider;
-  private Transform _player;
-  private DreadNaughtBoss _boss;
-  private Quaternion _initialRotation;
-
+  private Transform _playerTransform;
   [SerializeField]
   private GameObject _enemyLaserPrefab;
+
   private float _fireRate = 1f,
                 _canFire = -1f;
   private Quaternion _laserRotation;
 
-  private bool _beamCharge = false;
-
-  private Vector3 _enemyLocation;
-  private Vector3 _playerLocation;
-  private Vector3 _rightTriangle;
-  private float _xValueofShip;
-  private float _yValueofShip;
-  private float _radians;
-  private float _angle;
+  private Vector3 _enemyLocation,
+                  _playerLocation,
+                  _rightTriangle;
+  private float _xValueofShip,
+                _yValueofShip,
+                _radians,
+                _angle;
 
   private void Start()
   {
-    _boss = GetComponentInParent<DreadNaughtBoss>();
-    _player = GameObject.Find("Player").GetComponent<Transform>();
-    if (_player == null)
+    _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+    if (_playerTransform == null)
     {
-      Debug.LogError("Turret :: _player is NULL");
+      Debug.LogError("Turret :: _playerTransform is NULL");
     }
-    _initialRotation = gameObject.transform.rotation;
   }
 
   private void Update()
   {
-    if (_beamCharge == false && _player != null)
+    if (_playerTransform != null)
     {
       LookAtPlayer();
       StartCoroutine(TurretShooting());
@@ -48,21 +41,14 @@ public class Turret : MonoBehaviour
   private void LookAtPlayer()
   {
     _enemyLocation = gameObject.transform.position;
-    _playerLocation = _player.gameObject.transform.position;
+    _playerLocation = _playerTransform.gameObject.transform.position;
     _rightTriangle = _playerLocation - _enemyLocation;
-
     _xValueofShip = _rightTriangle.x;
     _yValueofShip = _rightTriangle.y;
+
     _radians = (float)Math.Atan2(_yValueofShip, _xValueofShip);
     _angle = _radians * (180 / 3.1415f);
-    if (_beamCharge == false)
-    {
-      gameObject.transform.rotation = Quaternion.Euler(0, 0, (_angle + 180));
-    }
-    else
-    {
-      gameObject.transform.rotation = _initialRotation;
-    }
+    gameObject.transform.rotation = Quaternion.Euler(0, 0, (_angle + 180));
   }
 
   IEnumerator TurretShooting()
@@ -80,10 +66,7 @@ public class Turret : MonoBehaviour
       GameObject enemyLaser = Instantiate(_enemyLaserPrefab,
                                            transform.position,
                                            _laserRotation);
-      //Debug.Break();
       enemyLaser.GetComponent<Laser>().AssignEnemyLaser();
-
     }
   }
-
 }
