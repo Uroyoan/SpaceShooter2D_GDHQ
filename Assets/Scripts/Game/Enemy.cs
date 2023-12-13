@@ -242,7 +242,6 @@ public class Enemy : MonoBehaviour
     _audioSource.Stop();
     _deathAnim.SetTrigger("OnEnemyDeath");
     AudioSource.PlayClipAtPoint(_audioDestroyed, transform.position);
-    _audioSource.Play();
     Destroy(GetComponent<Collider2D>());
     Destroy(gameObject, 2.70f);
   }
